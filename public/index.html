@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="hotcss" content="design-width=750">
+    <meta name="renderer" content="webkit|chrome">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta name="ML-config" content="fullscreen=yes,preventMove=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>vue-cli3</title>
+    <script type="text/javascript">!function(a,b){"use strict";var c={};c.setViewport=function(){var i,j,k,l,m,n,d=b.querySelector('meta[name="viewport"]'),e=b.querySelector('meta[name="hotcss"]'),f=a.devicePixelRatio||1,g=540,h=0;f=f>=3?3:f>=2?2:1,e&&(i=e.getAttribute("content"),i&&(j=i.match(/initial\-dpr=([\d\.]+)/),j&&(f=parseFloat(j[1])),k=i.match(/max\-width=([\d\.]+)/),k&&(g=parseFloat(k[1])),l=i.match(/design\-width=([\d\.]+)/),l&&(h=parseFloat(l[1])))),b.documentElement.setAttribute("data-dpr",f),c.dpr=f,b.documentElement.setAttribute("max-width",g),c.maxWidth=g,h&&b.documentElement.setAttribute("design-width",h),c.designWidth=h,m=1/f,n="width=device-width, initial-scale="+m+", minimum-scale="+m+", maximum-scale="+m+", user-scalable=no",d?d.setAttribute("content",n):(d=b.createElement("meta"),d.setAttribute("name","viewport"),d.setAttribute("content",n),b.head.appendChild(d))},c.px2rem=function(a,b){return b||(b=parseInt(c.designWidth,10)),320*parseInt(a,10)/b/20},c.rem2px=function(a,b){return b||(b=parseInt(c.designWidth,10)),20*a*b/320},c.mresize=function(){c.setViewport();var d=b.documentElement.getBoundingClientRect().width||a.innerWidth;return c.maxWidth&&d/c.dpr>c.maxWidth&&(d=c.maxWidth*c.dpr),d?(b.documentElement.style.fontSize=20*d/320+"px",c.callback&&c.callback(),void 0):!1},c.mresize(),a.addEventListener("resize",function(){clearTimeout(c.tid),c.tid=setTimeout(c.mresize,33)},!1),a.addEventListener("load",c.mresize,!1),setTimeout(function(){c.mresize()},333),a.hotcss=c}(window,document);</script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

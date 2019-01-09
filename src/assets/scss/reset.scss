@@ -1,0 +1,339 @@
+@charset "utf-8";
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html,body {
+	width: 100%;
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -ms-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	-webkit-appearance: none;
+}
+
+ul,li {
+	list-style: none;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+	display: block
+}
+
+audio,
+canvas,
+progress,
+video {
+	display: inline-block;
+	vertical-align: baseline;
+}
+
+audio:not([controls]) {
+	display: none;
+	height: 0
+}
+[hidden],
+template {
+	display: none
+}
+
+a {
+	background-color: transparent;
+}
+
+a:active,
+a:hover {
+	outline: 0
+}
+
+b,
+strong {
+	font-weight: 700
+}
+
+img {
+  border: 0;
+  outline: none;
+	display: block;
+	width: 100%;
+	max-width: 100%;
+}
+
+svg:not(:root) {
+	overflow: hidden;
+}
+
+figure {
+	margin: 1em 40px;
+}
+
+hr {
+	box-sizing: content-box;
+	height: 0
+}
+
+pre {
+	overflow: auto;
+}
+
+form{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	color: inherit;
+	font: inherit;
+	margin: 0;
+}
+
+button {
+	overflow: visible;
+}
+
+button,
+select {
+	text-transform: none;
+}
+
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+	-webkit-appearance: button;
+	cursor: pointer;
+}
+
+button[disabled],
+html input[disabled] {
+	cursor: default
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+input {
+	line-height: normal;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+input[type=checkbox],
+input[type=radio] {
+	box-sizing: border-box;
+	padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	height: auto;
+}
+
+input[type=search] {
+	-webkit-appearance: textfield;
+	box-sizing: content-box;
+}
+
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+textarea {
+	overflow: auto;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+td,
+th {
+	padding: 0;
+	margin: 0;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+	outline: 0;
+}
+
+a {
+	color: #333;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+a:active {
+	color: #0a8ddf;
+}
+
+input::-webkit-input-placeholder,input::-moz-input-placeholder,input::-ms-input-placeholder, textarea::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 100%;
+	letter-spacing: 0px;
+}
+
+address, cite, em, var,i {
+	font-style: normal;
+}
+/*float*/
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.fn {
+	float: none;
+}
+/* display */
+.dn {
+	display: none;
+}
+
+.di {
+	display: inline;
+}
+
+.db {
+	display: block;
+}
+
+.dib {
+	display: inline-block;
+}
+/* text-align */
+.tc {
+	text-align: center;
+}
+
+.tr {
+	text-align: right;
+}
+
+.tl {
+	text-align: left;
+}
+
+.tj {
+	text-align: justify;
+}
+/* vertical-align */
+.vm {
+	vertical-align: middle;
+}
+/* white-space */
+.nowrap {
+	white-space: nowrap;
+}
+/* word-wrap */
+.bk {
+	word-wrap: break-word;
+}
+/* position */
+.rel {
+	position: relative;
+}
+
+.abs {
+	position: absolute;
+}
+
+.ovh {
+	overflow: hidden;
+}
+/* 块状元素水平居中 */
+.auto {
+	margin: 0 auto;
+}
+/* 基于display: table-cell的自适应布局 */
+.cell {
+	display: table-cell;
+	*display: inline-block;
+	width: 2000px;
+	*width: auto;
+}
+/* 双栏自适应cell部分连续英文字符换行 */
+.cell-bk {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+/* text-decoration */
+.tdl {
+	text-decoration: underline;
+}
+
+.tdn, .tdn:hover, .tdn a:hover, a.tdl:hover {
+	text-decoration: none;
+}
+
+.icon {
+	display: inline-block;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.btn {
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.btn:focus,.btn:active:focus {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px
+}
+
+.btn:focus,.btn:hover {
+	text-decoration: none
+}
+
+.btn:active {
+	background-image: none;
+	outline: 0
+}
+
+.btn:disabled {
+	cursor: not-allowed;
+	opacity: .65
+}

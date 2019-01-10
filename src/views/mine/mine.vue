@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <h1>This is a {{mine}}</h1>
+    <h1 class="home">This is a {{mine}}</h1>
   </div>
 </template>
 
@@ -15,7 +15,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../assets/scss/variable.scss";
 .home {
   font-size: 32px;
   transform: translateX(30px);

@@ -1,7 +1,7 @@
 const path = require("path");
 const resolve = dir => path.join(__dirname, dir);
+//const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 module.exports = {
-  //允许对内部的 webpack 配置进行更细粒度的修改
   chainWebpack: config => {
     //配置webpack目录别名alias
     config.resolve.alias
@@ -9,5 +9,13 @@ module.exports = {
       .set("assets", resolve("src/assets"))
       .set("components", resolve("src/components"))
       .set("view", resolve("src/view"));
+  },
+  css: {
+    loaderOptions: {
+      // 配置scss全局变量
+      sass: {
+        data: `@import "@/assets/scss/variable.scss";` //!!!切记;不能丢
+      }
+    }
   }
 };

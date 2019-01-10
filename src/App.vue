@@ -4,6 +4,8 @@
       <keep-alive>
         <router-view class="router-animate" v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
+    </transition>
+    <transition name="fade">
       <router-view class="router-animate" v-if="!$route.meta.keepAlive"></router-view>
     </transition>
   </div>

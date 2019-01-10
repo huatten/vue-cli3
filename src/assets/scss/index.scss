@@ -1,6 +1,8 @@
 
 @charset "utf-8";
-@import "reset.scss";
-@import "public.scss";
-@import "transition.scss";
-@import "icon.scss";
+@import "reset.scss";       //样式重置
+@import "icon.scss";        //icon样式
+@import "public.scss";      //公共样式
+@import "transition.scss";  //过渡动画
+@import "mixin.scss";       //mixin类
+

@@ -1,15 +1,26 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <transition name="fade">
+      <keep-alive>
+        <router-view class="router-animate" v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view class="router-animate" v-if="!$route.meta.keepAlive"></router-view>
+    </transition>
   </div>
 </template>
 <script type="text/ecmascript-6">
-export default {};
+export default {
+  name: "myApp"
+};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+#app {
+  width: 100%;
+  height: 100%;
+}
+.router-animate {
+  width: 100%;
+  height: 100%;
+}
 </style>

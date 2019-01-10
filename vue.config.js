@@ -16,6 +16,9 @@ module.exports = {
       .set("view", resolve("src/view"));
   },
   configureWebpack: config => {
+    // 修复 HMR(热更新)失效
+    config.resolve.symlinks(true);
+
     //去除无效css
     if (IS_PROD) {
       const plugins = [];
@@ -30,6 +33,7 @@ module.exports = {
       );
       config.plugins = [...config.plugins, ...plugins];
     }
+
     //配置 externals
     config.externals = {
       vue: "Vue",
@@ -37,6 +41,7 @@ module.exports = {
       "vue-router": "VueRouter",
       axios: "axios"
     };
+
     //生产环境去除console
     if (IS_PROD) {
       const plugins = [];
@@ -56,6 +61,7 @@ module.exports = {
       );
       config.plugins = [...config.plugins, ...plugins];
     }
+
     //开启gzip
     if (IS_PROD) {
       const plugins = [];

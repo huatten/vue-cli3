@@ -32,6 +32,7 @@
     "postcss-plugin-px2rem": "^0.8.1",
     "purgecss-webpack-plugin": "^1.4.0",
     "sass-loader": "^7.0.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
     "vue-cli-plugin-pxtorem": "^1.0.0",
     "vue-template-compiler": "^2.5.21"
   }

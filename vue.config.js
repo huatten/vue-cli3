@@ -1,9 +1,7 @@
 const path = require("path");
-// https://www.npmjs.com/package/purgecss-webpack-plugin
 const PurgecssPlugin = require("purgecss-webpack-plugin");
-//If you need multiple paths use the npm package glob-all instead of glob
-const glob = require("glob-all");
-
+const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 const resolve = dir => path.join(__dirname, dir);
 
@@ -38,6 +36,25 @@ module.exports = {
       "vue-router": "VueRouter",
       axios: "axios"
     };
+    //生产环境去除console
+    if (IS_PROD) {
+      const plugins = [];
+      plugins.push(
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              warnings: false,
+              drop_console: true,
+              drop_debugger: false,
+              pure_funcs: ["console.log"] //移除console
+            }
+          },
+          sourceMap: false,
+          parallel: true
+        })
+      );
+      config.plugins = [...config.plugins, ...plugins];
+    }
   },
   css: {
     loaderOptions: {

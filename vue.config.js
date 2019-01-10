@@ -17,6 +17,7 @@ module.exports = {
       .set("view", resolve("src/view"));
   },
   configureWebpack: config => {
+    //去除无效css
     if (IS_PROD) {
       const plugins = [];
       plugins.push(
@@ -30,6 +31,13 @@ module.exports = {
       );
       config.plugins = [...config.plugins, ...plugins];
     }
+    //配置 externals
+    config.externals = {
+      vue: "Vue",
+      vuex: "Vuex",
+      "vue-router": "VueRouter",
+      axios: "axios"
+    };
   },
   css: {
     loaderOptions: {

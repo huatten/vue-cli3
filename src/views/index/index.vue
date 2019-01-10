@@ -13,3 +13,9 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.h1 {
+  font-size: 32px;
+  color: #f90;
+}
+</style>

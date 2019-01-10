@@ -2,6 +2,7 @@ const path = require("path");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 const resolve = dir => path.join(__dirname, dir);
 
@@ -51,6 +52,20 @@ module.exports = {
           },
           sourceMap: false,
           parallel: true
+        })
+      );
+      config.plugins = [...config.plugins, ...plugins];
+    }
+    //开启gzip
+    if (IS_PROD) {
+      const plugins = [];
+      plugins.push(
+        new CompressionWebpackPlugin({
+          filename: "[path].gz[query]",
+          algorithm: "gzip",
+          test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
+          threshold: 10240, //只处理比这个值大的资源。按字节计算
+          minRatio: 0.8 //只有压缩率比这个值小的资源才会被处理
         })
       );
       config.plugins = [...config.plugins, ...plugins];

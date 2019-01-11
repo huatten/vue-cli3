@@ -4,6 +4,7 @@ const glob = require("glob-all"); //If you need multiple paths use the npm packa
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
+const IS_CDN = false; //是否开启CDN引用
 const resolve = dir => path.join(__dirname, dir);
 
 module.exports = {
@@ -14,11 +15,24 @@ module.exports = {
       .set("assets", resolve("src/assets"))
       .set("components", resolve("src/components"))
       .set("view", resolve("src/view"));
+
+    // 压缩图片
+    config.module
+      .rule("images")
+      .test(/\.(gif|png|jpe?g|svg)$/i)
+      .use("image-webpack-loader")
+      .loader("image-webpack-loader")
+      .options({
+        bypassOnDebug: true
+        // mozjpeg: { progressive: true, quality: 65 },
+        // optipng: { enabled: false },
+        // pngquant: { quality: "65-90", speed: 4 },
+        // gifsicle: { interlaced: false },
+        // webp: { quality: 75 }
+      })
+      .end();
   },
   configureWebpack: config => {
-    // 修复 HMR(热更新)失效
-    config.resolve.symlinks(true);
-
     //去除无效css
     if (IS_PROD) {
       const plugins = [];
@@ -34,13 +48,15 @@ module.exports = {
       config.plugins = [...config.plugins, ...plugins];
     }
 
-    //配置 externals
-    config.externals = {
-      vue: "Vue",
-      vuex: "Vuex",
-      "vue-router": "VueRouter",
-      axios: "axios"
-    };
+    //cdn引用时配置externals
+    if (IS_CDN) {
+      config.externals = {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios"
+      };
+    }
 
     //生产环境去除console
     if (IS_PROD) {
@@ -49,8 +65,10 @@ module.exports = {
         new UglifyJsPlugin({
           uglifyOptions: {
             compress: {
-              warnings: false,
-              drop_console: true,
+              warnings: false, //在UglifyJs删除没有用到的代码时不输出警告
+              drop_console: true, // 删除所有的 `console` 语句
+              collapse_vars: true, // 内嵌定义了但是只用到一次的变量
+              reduce_vars: true, // 提取出出现多次但是没有定义成变量去引用的静态值
               drop_debugger: false,
               pure_funcs: ["console.log"] //移除console
             }

@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <h1>This is a {{index}}</h1>
+    <img src="./images/pop_img.png" alt="弹窗"/>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -10,7 +11,8 @@ export default {
     return {
       index: "indexPage"
     };
-  }
+  },
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>

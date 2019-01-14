@@ -16,6 +16,7 @@ module.exports = {
       .set("@", resolve("src"))
       .set("assets", resolve("src/assets"))
       .set("components", resolve("src/components"))
+      .set("icons", resolve("src/icons"))
       .set("view", resolve("src/view"));
 
     // 压缩图片
@@ -30,11 +31,23 @@ module.exports = {
       .end();
 
     // 打包分析
-    if (process.env.NODE_ENV === "analyz") {
+    process.env.NODE_ENV === "analyz" &&
       config
         .plugin("webpack-bundle-analyzer")
         .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
-    }
+
+    //svg-sprite-loader配置
+    config.module.rules.delete("svg");
+    config.module
+      .rule("svg-sprite-loader")
+      .test(/\.svg$/)
+      .include.add(resolve("./src/icons"))
+      .end()
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId: "[name]"
+      });
   },
   configureWebpack: config => {
     if (IS_PROD) {

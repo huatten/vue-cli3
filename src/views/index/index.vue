@@ -1,11 +1,10 @@
 <template>
   <div class="page">
-    <h1>This is a {{index}}</h1>
+   <svg-icon name="user"></svg-icon>
     <img src="./images/pop_img.png" alt="弹窗"/>
   </div>
 </template>
 <script type="text/ecmascript-6">
-const isDev = process.env.NODE_ENV !== "production";
 export default {
   name: "indexPage",
   data() {
@@ -13,9 +12,7 @@ export default {
       index: "indexPage"
     };
   },
-  mounted() {
-    console.log(isDev);
-  }
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>

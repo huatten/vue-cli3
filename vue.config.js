@@ -1,3 +1,4 @@
+//https://github.com/staven630/vue-cli3-config
 const path = require("path");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob
@@ -29,14 +30,16 @@ module.exports = {
       .end();
 
     // 打包分析
-    config
-      .plugin("webpack-bundle-analyzer")
-      .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
+    if (process.env.NODE_ENV === "analyz") {
+      config
+        .plugin("webpack-bundle-analyzer")
+        .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
+    }
   },
   configureWebpack: config => {
-    //去除无效css
     if (IS_PROD) {
       const plugins = [];
+      //去除无效css
       plugins.push(
         new PurgecssPlugin({
           paths: glob.sync([
@@ -46,22 +49,7 @@ module.exports = {
           ])
         })
       );
-      config.plugins = [...config.plugins, ...plugins];
-    }
-
-    //cdn引用时配置externals
-    if (IS_CDN) {
-      config.externals = {
-        vue: "Vue",
-        "vue-router": "VueRouter",
-        vuex: "Vuex",
-        axios: "axios"
-      };
-    }
-
-    //生产环境去除console
-    if (IS_PROD) {
-      const plugins = [];
+      //生产环境去除console
       plugins.push(
         new UglifyJsPlugin({
           uglifyOptions: {
@@ -78,22 +66,29 @@ module.exports = {
           parallel: true
         })
       );
+      //开启Gzip压缩
+      if (IS_GZIP) {
+        plugins.push(
+          new CompressionWebpackPlugin({
+            filename: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
+            threshold: 10240,
+            minRatio: 0.8
+          })
+        );
+      }
       config.plugins = [...config.plugins, ...plugins];
     }
 
-    //开启gzip
-    if (IS_PROD && IS_GZIP) {
-      const plugins = [];
-      plugins.push(
-        new CompressionWebpackPlugin({
-          filename: "[path].gz[query]",
-          algorithm: "gzip",
-          test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
-          threshold: 10240,
-          minRatio: 0.8
-        })
-      );
-      config.plugins = [...config.plugins, ...plugins];
+    //cdn引用时配置externals
+    if (IS_CDN) {
+      config.externals = {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios"
+      };
     }
   },
   css: {

@@ -5,6 +5,7 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+const isDev = process.env.NODE_ENV !== "production";
 export default {
   name: "indexPage",
   data() {
@@ -12,7 +13,9 @@ export default {
       index: "indexPage"
     };
   },
-  mounted() {}
+  mounted() {
+    console.log(isDev);
+  }
 };
 </script>
 <style lang="scss" scoped>

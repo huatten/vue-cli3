@@ -37,11 +37,16 @@ module.exports = {
         .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
 
     //svg-sprite-loader配置
-    config.module.rules.delete("svg");
+    //config.module.rules.delete("svg");
     config.module
-      .rule("svg-sprite-loader")
+      .rule("svg")
+      .exclude.add(path.resolve(__dirname, "src/icons"))
+      .end();
+
+    config.module
+      .rule("icons")
       .test(/\.svg$/)
-      .include.add(resolve("./src/icons"))
+      .include.add(path.resolve(__dirname, "src/icons"))
       .end()
       .use("svg-sprite-loader")
       .loader("svg-sprite-loader")

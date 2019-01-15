@@ -1,10 +1,16 @@
 <template>
-  <div class="page">
-    <h1 class="home">This is a {{mine}}</h1>
+  <div>
+    <div class="lottery"></div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+/**
+ * https://github.com/Venler/vue-lottery
+ * https://github.com/jlianphoto/iver/blob/master/src/packages/lottery/src/lottery.vue
+ * https://blog.csdn.net/YaoDeBiAn/article/details/82767831
+ * https://github.com/moshanghan/vue-mo-cli
+ */
 export default {
   name: "minePage",
   data() {
@@ -15,9 +21,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.home {
-  font-size: 32px;
-  transform: translateX(30px);
-  border: 1px solid $color_border;
+.lottery {
 }
 </style>

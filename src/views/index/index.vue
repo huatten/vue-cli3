@@ -1,10 +1,14 @@
 <template>
-  <div class="page">
-   <svg-icon name="user"></svg-icon>
-    <img src="./images/pop_img.png" alt="弹窗"/>
+  <div>
+    <m-header></m-header>
+    <m-content>
+      <m-marquee></m-marquee>
+    </m-content>
   </div>
 </template>
 <script type="text/ecmascript-6">
+import MHeader from "components/header/index";
+import MMarquee from "components/marquee/index";
 export default {
   name: "indexPage",
   data() {
@@ -12,6 +16,7 @@ export default {
       index: "indexPage"
     };
   },
+  components: { MHeader, MMarquee },
   mounted() {}
 };
 </script>

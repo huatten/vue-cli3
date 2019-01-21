@@ -37,22 +37,20 @@ module.exports = {
         .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
 
     //svg-sprite-loader配置
-    //config.module.rules.delete("svg");
-    config.module
-      .rule("svg")
-      .exclude.add(path.resolve(__dirname, "src/icons"))
-      .end();
-
-    config.module
-      .rule("icons")
+    const svgRule = config.module.rule("svg"); // 找到svg-loader
+    svgRule.uses.clear(); // 清除已有的loader, 如果不这样做会添加在此loader之后
+    svgRule.exclude.add(/node_modules/); // 正则匹配排除node_modules目录
+    svgRule // 添加svg新的loader处理
       .test(/\.svg$/)
-      .include.add(path.resolve(__dirname, "src/icons"))
-      .end()
       .use("svg-sprite-loader")
       .loader("svg-sprite-loader")
       .options({
         symbolId: "[name]"
       });
+    // 修改images loader 添加svg处理
+    const imagesRule = config.module.rule("images");
+    imagesRule.exclude.add(resolve("src/icons"));
+    config.module.rule("images").test(/\.(png|jpe?g|gif|svg)(\?.*)?$/);
   },
   configureWebpack: config => {
     if (IS_PROD) {

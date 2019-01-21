@@ -19,7 +19,7 @@ export default {
     },
     size: {
       type: String,
-      default: "xs"
+      default: "md"
     },
     fill: {
       type: String,

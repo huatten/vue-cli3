@@ -2,13 +2,12 @@
   <div>
     <m-header></m-header>
     <m-content>
-      <m-marquee></m-marquee>
+      <svg-icon name="user"></svg-icon>
     </m-content>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import MHeader from "components/header/index";
-import MMarquee from "components/marquee/index";
 export default {
   name: "indexPage",
   data() {
@@ -16,7 +15,7 @@ export default {
       index: "indexPage"
     };
   },
-  components: { MHeader, MMarquee },
+  components: { MHeader },
   mounted() {}
 };
 </script>

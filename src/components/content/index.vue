@@ -1,10 +1,17 @@
 <template>
-  <div class="m-content">
+  <div :class="['m-content',className]">
      <slot></slot>
   </div>
 </template>
 <script type="text/ecmascript-6">
-export default {};
+export default {
+  props: {
+    className: {
+      type: String,
+      default: "m-content"
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .m-content {

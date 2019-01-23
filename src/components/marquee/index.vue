@@ -44,14 +44,14 @@ export default {
   height: 70px;
   overflow: hidden;
   position: relative;
-  border-top: 1px solid #666;
-  border-bottom: 1px solid #666;
   margin: 30px auto;
+  border-radius: 30px;
 }
 .m-marquee-cont {
   position: absolute;
   top: 0;
   left: 0;
+  background: #eeb75c;
   li {
     line-height: 70px;
     text-align: center;
@@ -62,6 +62,7 @@ export default {
     text-align: center;
     font-size: 28px;
     width: 190px;
+    color: #fff;
   }
 }
 .m-marquee-top {

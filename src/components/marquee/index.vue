@@ -2,10 +2,10 @@
   <div class="m-marquee" >
     <ul class="m-marquee-cont" :class="{'m-marquee-top': animate}">
       <li v-for="(item, index) in scrollList" :key="index">
-        <span>{{item.phone}}</span>
-        <span>{{item.name}}</span>
-        <span>{{item.type}}</span>
-        <span>{{item.time}}</span>
+        <span>{{item.mobile}}</span>
+        <span>{{item.nickName}}</span>
+        <span>{{item.prizeName}}</span>
+        <span>{{item.createTime | getDate}}</span>
       </li>
     </ul>
   </div>
@@ -44,7 +44,8 @@ export default {
   height: 70px;
   overflow: hidden;
   position: relative;
-  border: 1px solid #666;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
   margin: 30px auto;
 }
 .m-marquee-cont {
@@ -54,10 +55,13 @@ export default {
   li {
     line-height: 70px;
     text-align: center;
+    display: inline-flex;
   }
   span {
+    flex: 1;
+    text-align: center;
     font-size: 28px;
-    margin: 0 20px;
+    width: 190px;
   }
 }
 .m-marquee-top {

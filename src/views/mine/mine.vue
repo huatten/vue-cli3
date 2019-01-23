@@ -95,8 +95,8 @@ export default {
             if (data.code === 0) {
               //启动滚盘
               this.rolling();
-              this.finalindex = data.data.level;
-              this.prizeName = data.data.commodityName;
+              this.finalindex = data.data.position;
+              this.prizeName = data.data.prizeName;
             } else {
               alert("服务端错误");
             }

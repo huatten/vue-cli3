@@ -5,7 +5,7 @@
         <span>{{item.mobile}}</span>
         <span>{{item.nickName}}</span>
         <span>{{item.prizeName}}</span>
-        <span>{{item.createTime | getDate}}</span>
+        <span>{{item.createTime}}</span>
       </li>
     </ul>
   </div>

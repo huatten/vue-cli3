@@ -2,7 +2,7 @@
   <div>
     <m-header></m-header>
     <m-content :className="className">
-      <div class="lottery" :class="{'lottery2': bgFlag}">
+      <div class="lottery">
         <ul>
           <li 
           v-for="(item, index) in prizeInfo" 
@@ -32,8 +32,6 @@ export default {
   data() {
     return {
       className: "indexWrap",
-      bgFlag: false,
-      bgTimer: null,
       roll_direction: [1, 2, 3, 8, 4, 7, 6, 5], //转动顺序
       last_index: 0, //上一回滚动的位置
       amplification_index: 0, //轮盘的当前滚动位置
@@ -58,17 +56,8 @@ export default {
   mounted() {
     this.getinfo();
     this.scrollInfo();
-    this.flashing();
-  },
-  destroyed() {
-    clearInterval(this.bgTimer);
   },
   methods: {
-    flashing() {
-      this.bgTimer = setInterval(() => {
-        this.bgFlag = !this.bgFlag;
-      }, 365);
-    },
     //获取奖品信息
     getinfo() {
       axios
@@ -189,12 +178,9 @@ export default {
   width: 650px;
   height: 630px;
   margin: 100px auto;
-  background: url("./images/draw_bg.png") no-repeat center center;
-  background-size: 650px auto;
-  &.lottery2 {
-    background: url("./images/draw_bg_next.png") no-repeat center center;
-    background-size: 650px auto;
-  }
+  animation: background 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
   ul {
     width: 550px;
     height: 550px;
@@ -254,6 +240,26 @@ export default {
         transform: scale(1.1);
       }
     }
+  }
+}
+@-webkit-keyframes background {
+  from {
+    background: url("./images/draw_bg.png") no-repeat center center;
+    background-size: 650px auto;
+  }
+  to {
+    background: url("./images/draw_bg_next.png") no-repeat center center;
+    background-size: 650px auto;
+  }
+}
+@keyframes background {
+  from {
+    background: url("./images/draw_bg.png") no-repeat center center;
+    background-size: 650px auto;
+  }
+  to {
+    background: url("./images/draw_bg_next.png") no-repeat center center;
+    background-size: 650px auto;
   }
 }
 </style>

@@ -1,4 +1,8 @@
-//https://github.com/staven630/vue-cli3-config
+/*
+ * https://github.com/staven630/vue-cli3-config
+ * https://juejin.im/post/5c4a6fcd518825469414e062?utm_source=gold_browser_extension#heading-3
+ * https://juejin.im/post/5c3c544c6fb9a049d37f5903
+ */
 const path = require("path");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob

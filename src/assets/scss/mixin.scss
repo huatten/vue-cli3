@@ -1,1 +1,16 @@
 @charset "utf-8";
+//宽高
+@mixin wh($width, $height) {
+  width: $width;
+  height: $height;
+}
+//字体水平对齐、行高
+@mixin tl($text-align, $line-height) {
+    text-align: $text-align;
+    line-height: $line-height;
+}
+//字体大小，颜色
+@mixin sc($size, $color) {
+    font-size: $size;
+    color: $color;
+}

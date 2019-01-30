@@ -25,8 +25,6 @@
 </template>
 <script type="text/ecmascript-6">
 import axios from "axios";
-import MHeader from "components/header/index";
-import MMarquee from "components/marquee/index";
 export default {
   name: "indexpage",
   data() {
@@ -52,7 +50,6 @@ export default {
       scrollList: [] //滚动中奖信息
     };
   },
-  components: { MHeader, MMarquee },
   mounted() {
     this.getinfo();
     this.scrollInfo();

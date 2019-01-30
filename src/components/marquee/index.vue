@@ -12,7 +12,7 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
-  name: "m-marquee",
+  name: "MMarquee",
   data() {
     return {
       animate: false

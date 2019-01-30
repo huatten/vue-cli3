@@ -5,6 +5,7 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
+  name: "MContent",
   props: {
     className: {
       type: String,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <m-header></m-header>
+    <m-header :hasBack="hasBack" :titleTxt="titleTxt"></m-header>
     <m-content :className="className">
       <div class="lottery">
         <ul>
@@ -18,9 +18,10 @@
             </template>
           </li>
         </ul>
-    </div>
-    <m-marquee :scrollList="scrollList"></m-marquee>
+      </div>
+      <m-marquee :scrollList="scrollList"></m-marquee>
     </m-content>
+    <m-footer></m-footer>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -30,6 +31,9 @@ export default {
   data() {
     return {
       className: "indexWrap",
+      hasBack: false,
+      titleTxt: "首页",
+
       roll_direction: [1, 2, 3, 8, 4, 7, 6, 5], //转动顺序
       last_index: 0, //上一回滚动的位置
       amplification_index: 0, //轮盘的当前滚动位置

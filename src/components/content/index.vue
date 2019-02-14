@@ -9,7 +9,7 @@ export default {
   props: {
     className: {
       type: String,
-      default: "m-content"
+      default: ""
     }
   }
 };

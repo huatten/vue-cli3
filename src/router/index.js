@@ -13,5 +13,6 @@ routerContext.keys().forEach(route => {
 
 export default new Router({
   //mode: "history",
+  linkActiveClass: "active",
   routes: routes
 });

@@ -1,9 +1,9 @@
 <template>
   <header class="m-header">
     <div class="m-header-cont">
-      <span class="m-back"></span>
-      <h5 class="m-text">首页</h5>
-      <span class="m-icon"></span>
+      <span class="m-back" v-if="hasBack"></span>
+      <h5 class="m-text">{{titleTxt}}</h5>
+      <span class="m-icon" v-if="rightIcon"></span>
     </div>
   </header>
 </template>
@@ -12,6 +12,20 @@ export default {
   name: "MHeader",
   data() {
     return {};
+  },
+  props: {
+    hasBack: {
+      type: Boolean,
+      default: true
+    },
+    titleTxt: {
+      type: String,
+      default: "标题"
+    },
+    rightIcon: {
+      type: Boolean,
+      default: false
+    }
   }
 };
 </script>
@@ -36,7 +50,8 @@ export default {
     left: 0;
     top: 0;
     z-index: 1;
-    background: url("./imgage/head_back.png") no-repeat center center;
+    @include bg-image("head_back");
+    background-position: center center;
     background-size: 56px auto;
   }
   .m-text {

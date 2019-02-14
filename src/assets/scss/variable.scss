@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import "mixin.scss";
 
 /*颜色定义规范*/
 $color_background:#fafafa;   //页面背景色
@@ -6,4 +7,5 @@ $color_text: #333;  //页面通用字体色
 $color_link:#5983b2;  //链接文字颜色
 $color_border: #e6e6e6;  //边框颜色
 $color_333: #333;
+$color_666: #666;
 

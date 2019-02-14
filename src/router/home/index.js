@@ -3,7 +3,7 @@
  */
 export default [
   {
-    path: "/",
+    path: "/index",
     name: "index",
     component: resolve => {
       require.ensure(

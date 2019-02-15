@@ -7,9 +7,9 @@ export default [
     name: "index",
     component: resolve => {
       require.ensure(
-        ["@/views/index/index.vue"],
+        ["@/views/home/index.vue"],
         () => {
-          resolve(require("@/views/index/index.vue"));
+          resolve(require("@/views/home/index.vue"));
         },
         "index"
       );

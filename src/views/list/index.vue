@@ -10,8 +10,10 @@
              <div class="swiper-wrapper scroll__month__body">
                 <div 
                 class="swiper-slide scroll__item" 
-                :class="{cur__month:dep_id==item.mid}"
+                :class="{cur__month:i == selectedMonth}"
                 v-for="(item ,i) in calendarMonth" 
+                :data-month="item.mid"
+                style="width: 160px"
                 :key="i">
                   {{item.name}}
                 </div>
@@ -25,11 +27,11 @@
             {{item}}
           </div>
           <div class="main__block"
-               :class="{'main__block__disabled': item.type==='disabled', 'main__block__today' : today === `${selectedYear}-${_toDou(selectedMonth+1)}-${_toDou(item.day)}` }"
+               :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today' : item.isToday}"
                @click.prevent="handleDayClick(item)"
                v-for="(item, index) in getMonthDays(selectedYear, selectedMonth)"
                :key="item.type + item.day + `${index}`">
-            {{today === `${selectedYear}-${_toDou(selectedMonth+1)}-${_toDou(item.day)}` ? '今天' :item.day}}
+            {{item.isToday ? '今天' :item.day}}
           </div>
         </div>
       </div>
@@ -39,15 +41,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-/**
- * https://github.com/zwhGithub/vue-calendar
- * https://www.cnblogs.com/fangnianqin/p/9910129.html
- * http://www.cnblogs.com/gqx-html/p/9962148.html
- * https://juejin.im/post/5959b1db6fb9a06ba317c88b#heading-0
- * https://www.cnblogs.com/jlliu/p/9854918.html
- */
 import Swiper from "swiper";
-//import "../../node_modules/swiper/dist/css/swiper.min.css";
+import timeUtil from "../../assets/js/utils/calendar.js";
 export default {
   name: "listPage",
   data() {
@@ -79,58 +74,78 @@ export default {
       selectedDate: "",
       prevYearMonthBoolean: false,
       nextYearMonthBoolean: false,
-
       mySwiper: null,
-      dep_id: 2,
-      dep_name: "2月",
-      swiperWidth: "",
-      maxTranslate: "",
-      maxWidth: ""
+      navItemWidth: 160
     };
   },
   mounted() {
-    this.initData();
-    var that = this;
-    that.mySwiper = new Swiper("#topNav", {
-      freeMode: true,
-      freeModeMomentumRatio: 0.5,
-      slidesPerView: "auto",
-      resistanceRatio: 0.7,
-      observer: true,
-      observeParents: false
-    });
-
-    that.swiperWidth =
-      document.querySelector(".swiper-container").clientWidth ||
-      that.mySwiper.width;
-    that.maxTranslate = that.mySwiper.maxTranslate();
-    that.maxWidth = -that.maxTranslate + that.swiperWidth / 2;
-
-    that.mySwiper.on("tap", function(swiper) {
-      //swiper.clickedIndex(获取到当前点击的索引)
-      console.log(swiper);
-      if (that.dep_id == that.calendarMonth[swiper.clickedIndex].mid) {
-        return;
-      }
-      that.dep_name = that.calendarMonth[swiper.clickedIndex].name;
-      that.dep_id = that.calendarMonth[swiper.clickedIndex].mid;
-      var slide, slideLeft, slideWidth, slideCenter, nowTlanslate;
-      slide = swiper.slides[swiper.clickedIndex];
-      slideLeft = slide.offsetLeft;
-      slideWidth = slide.clientWidth;
-      slideCenter = slideLeft + slideWidth / 2;
-      that.mySwiper.setWrapperTransition(300);
-      if (slideCenter < that.swiperWidth / 2) {
-        that.mySwiper.setWrapperTranslate(0);
-      } else if (slideCenter > that.maxWidth) {
-        that.mySwiper.setWrapperTranslate(that.maxTranslate);
-      } else {
-        nowTlanslate = slideCenter - that.swiperWidth / 2;
-        that.mySwiper.setWrapperTranslate(-nowTlanslate);
-      }
+    this.$nextTick(() => {
+      this.initScroll();
     });
   },
   methods: {
+    initScroll() {
+      if (this.mySwiper) {
+        this.mySwiper.destroy(true, false);
+      }
+      this.mySwiper = new Swiper("#topNav", {
+        slidesPerView: "auto",
+        freeMode: true,
+        freeModeMomentumRatio: 0.5,
+        observer: true,
+        observeParents: false,
+        on: {
+          init: () => {
+            //默认选中
+            this.initData();
+          },
+          tap: () => {
+            //滑动时间
+            this.mySwiper.setTransition(300);
+            //滑动
+            this._slide(swiperWidth, maxTranslate, maxWidth);
+            //更改class
+            this.selectedMonth = this.mySwiper.clickedIndex;
+          },
+          touchmove: e => {
+            //解决拖动警告
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }
+      });
+      //导航可视宽度
+      const swiperWidth = this.mySwiper.width;
+      //导航最大移动距离
+      const maxTranslate =
+        swiperWidth - parseInt(this.navItemWidth) * this.mySwiper.slides.length;
+      //导航移动
+      const maxWidth = -maxTranslate + swiperWidth / 2;
+    },
+    _slide(swiperWidth, maxTranslate, maxWidth) {
+      //点击的nav
+      const slide = this.mySwiper.slides[this.mySwiper.clickedIndex];
+      //点击的nav offsetLeft距离浏览器左边距离
+      const slideLeft = slide.offsetLeft;
+      //点击的nav的可视宽度
+      const slideWidth = slide.clientWidth;
+      //导航可视宽度
+      const clientWidth = this.mySwiper.width;
+      //导航总宽度
+      const navWidth = slideWidth * this.mySwiper.slides.length;
+      if (slideLeft < (clientWidth - parseInt(slideWidth)) / 2) {
+        this.mySwiper.setTranslate(0);
+      } else if (
+        slideLeft >
+        navWidth - parseInt(slideWidth + clientWidth) / 2
+      ) {
+        this.mySwiper.setTranslate(clientWidth - navWidth);
+      } else {
+        this.mySwiper.setTranslate(
+          (clientWidth - parseInt(slideWidth)) / 2 - slideLeft
+        );
+      }
+    },
     initData() {
       this.today = this.currentDate || this._getDateStr(0); // 如果没有服务器时间，拿本地时间
       this.minYearMonth = "2018-06";
@@ -143,57 +158,11 @@ export default {
       this.selectedYear = Number(selectedFullDate.split("-")[0]);
       this.selectedMonth = Number(selectedFullDate.split("-")[1]) - 1;
       this.selectedDate = Number(selectedFullDate.split("-")[2]);
-      console.log(this.selectedMonth);
     },
     //渲染日期
     getMonthDays(year, month) {
-      //定义每个月的天数，如果是闰年第二月改为29天
-      let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-        daysInMonth[1] = 29;
-      }
-      // 当月第一天为周几
-      let targetDay = new Date(year, month, 1).getDay();
-      let total_calendar_list = [];
-      let preNum = targetDay;
-      let nextNum = 0;
-      if (targetDay > 0) {
-        // 当前月份1号前的自然周剩余日期，置空
-        for (let i = 0; i < preNum; i++) {
-          let obj = {
-            type: "disabled",
-            day: i + 1,
-            date: null
-          };
-          total_calendar_list.push(obj);
-        }
-      }
-      // 判断当前年月份
-      let formatMonth = month + 1 >= 10 ? month + 1 : "0" + (month + 1);
-      this.prevYearMonthBoolean =
-        `${year}-${formatMonth}` === this.minYearMonth ? true : false;
-      this.nextYearMonthBoolean =
-        `${year}-${formatMonth}` === this.maxYearMonth ? true : false;
-      for (let i = 0; i < daysInMonth[month]; i++) {
-        let obj = {
-          type: "normal",
-          day: i + 1,
-          date: `${this.selectedYear}-${this._toDou(
-            this.selectedMonth + 1
-          )}-${this._toDou(i + 1)}`
-        };
-        total_calendar_list.push(obj);
-      }
-      // 当前月份28/29/30/31号后的自然周剩余日期，置空
-      nextNum = 6 - new Date(year, month + 1, 0).getDay();
-      for (let i = 0; i < nextNum; i++) {
-        let obj = {
-          type: "disabled",
-          day: i + 1,
-          date: null
-        };
-        total_calendar_list.push(obj);
-      }
+      const total_calendar_list = timeUtil.getMonthList(new Date(year, month));
+      console.log(total_calendar_list);
       const DATE = [
         {
           date: "2019-02-02",
@@ -219,7 +188,7 @@ export default {
       for (let i = 0; i < total_calendar_list.length; i++) {
         if (
           obj[total_calendar_list[i].date] !== undefined &&
-          total_calendar_list[i].type === "normal"
+          total_calendar_list[i].type === "nowMonth"
         ) {
           total_calendar_list[i].refund = obj[total_calendar_list[i].date];
         }
@@ -343,13 +312,13 @@ export default {
       flex-shrink: 0;
       flex-basis: auto;
       box-sizing: border-box;
-      padding: 0 25px;
       font-size: 28px;
       text-align: center;
       color: #000;
       display: block;
       &.cur__month {
         color: #f90;
+        font-weight: 550;
       }
     }
   }

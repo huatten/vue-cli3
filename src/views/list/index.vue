@@ -10,7 +10,7 @@
              <div class="swiper-wrapper scroll__month__body">
                 <div 
                 class="swiper-slide scroll__item" 
-                :class="{cur__month:i == selectedMonth}"
+                :class="{cur__month:i === selectedMonth}"
                 v-for="(item ,i) in calendarMonth" 
                 :data-month="item.mid"
                 style="width: 160px"
@@ -27,11 +27,11 @@
             {{item}}
           </div>
           <div class="main__block"
-               :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected' : item.isToday, 'main__block__refunded': item.refund=='REFUNDED', 'main__block__refunding': item.refund=='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type == 'nowMonth'}"
+               :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected': item.isToday && item.day === selectedDate,'main__block__today' : item.isToday, 'main__block__refunded': item.refund==='REFUNDED', 'main__block__refunding': item.refund==='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type === 'nowMonth'}"
                @click.prevent="handleDayClick(item)"
                v-for="(item) in getMonthDays(selectedYear, selectedMonth)"
                :key="item.type + item.day">
-            {{item.day}}
+            {{item.isToday ? "今天" : item.day}}
           </div>
         </div>
       </div>
@@ -183,7 +183,7 @@ export default {
           refund: "REFUNDING"
         },
         {
-          date: "2019-02-28",
+          date: "2019-02-25",
           refund: "REFUNDING"
         }
       ];
@@ -335,6 +335,9 @@ export default {
       left: 50%;
       transform: translateX(-50%);
     }
+    &.main__block__disabled {
+      color: #cbc9d5;
+    }
     &.main__block__refunded {
       &::after {
         display: block;
@@ -351,16 +354,13 @@ export default {
       background-color: #333;
       color: #fff;
     }
-    &.main__block__disabled {
-      color: #cbc9d5;
-    }
     &.main__block__today__selected {
-      color: #fff;
-      background: #ff8200;
+      color: #fff !important;
+      background: #ff8200 !important;
     }
     &.main__block__today {
-      color: #ff8200 !important;
-      background: #fff !important;
+      color: #ff8200;
+      background: #fff;
     }
   }
 }

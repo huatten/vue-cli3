@@ -27,11 +27,11 @@
             {{item}}
           </div>
           <div class="main__block"
-               :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today' : item.isToday}"
+               :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected' : item.isToday, 'main__block__refunded': item.refund=='REFUNDED', 'main__block__refunding': item.refund=='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type == 'nowMonth'}"
                @click.prevent="handleDayClick(item)"
-               v-for="(item, index) in getMonthDays(selectedYear, selectedMonth)"
-               :key="item.type + item.day + `${index}`">
-            {{item.isToday ? '今天' :item.day}}
+               v-for="(item) in getMonthDays(selectedYear, selectedMonth)"
+               :key="item.type + item.day">
+            {{item.day}}
           </div>
         </div>
       </div>
@@ -64,16 +64,13 @@ export default {
         { mid: "11", name: "11月" },
         { mid: "12", name: "12月" }
       ],
-      minYearMonth: "", //起始时间
-      maxYearMonth: "", //结束时间
+      CALENDAR: "",
       today: "", //今天
       currentDate: "", //服务器当前时间 2019-02-20
-      storeSelectedFullDate: "", //手动选择的日期
+      selectedFullDate: "", //手动选择的日期
       selectedYear: "",
       selectedMonth: "",
       selectedDate: "",
-      prevYearMonthBoolean: false,
-      nextYearMonthBoolean: false,
       mySwiper: null,
       navItemWidth: 160
     };
@@ -84,6 +81,18 @@ export default {
     });
   },
   methods: {
+    _map(arr1, arr2) {
+      //arr1 ==> arr2
+      const obj = {};
+      arr1.map(e => {
+        obj[e.date] = e.refund;
+      });
+      for (let i = 0; i < arr2.length; i++) {
+        if (obj[arr2[i].date] !== undefined && arr2[i].type === "nowMonth") {
+          arr2[i].refund = obj[arr2[i].date];
+        }
+      }
+    },
     initScroll() {
       if (this.mySwiper) {
         this.mySwiper.destroy(true, false);
@@ -147,22 +156,19 @@ export default {
       }
     },
     initData() {
-      this.today = this.currentDate || this._getDateStr(0); // 如果没有服务器时间，拿本地时间
-      this.minYearMonth = "2018-06";
-      this.maxYearMonth = "2020-12";
+      this.today = this.currentDate || timeUtil.getDateStr(0); // 如果没有服务器时间，拿本地时间
       // 是否有手动选中的日期
-      let selectedFullDate = this.storeSelectedFullDate;
-      if (!this.storeSelectedFullDate) {
-        selectedFullDate = this.currentDate || this._getDateStr(0); // 如果没有服务器时间，拿本地时间
-      }
-      this.selectedYear = Number(selectedFullDate.split("-")[0]);
-      this.selectedMonth = Number(selectedFullDate.split("-")[1]) - 1;
-      this.selectedDate = Number(selectedFullDate.split("-")[2]);
+      this.selectedFullDate = this.currentDate || timeUtil.getDateStr(0);
+      this.selectedYear = Number(this.selectedFullDate.split("-")[0]);
+      this.selectedMonth = Number(this.selectedFullDate.split("-")[1]) - 1;
+      this.selectedDate = Number(this.selectedFullDate.split("-")[2]);
+      this.selectedFullDate = `${this.selectedYear}-${timeUtil._toDou(
+        this.selectedMonth + 1
+      )}-${timeUtil._toDou(this.selectedDate)}`;
     },
     //渲染日期
     getMonthDays(year, month) {
-      const total_calendar_list = timeUtil.getMonthList(new Date(year, month));
-      console.log(total_calendar_list);
+      let CALENDAR = timeUtil.getMonthList(new Date(year, month));
       const DATE = [
         {
           date: "2019-02-02",
@@ -181,25 +187,14 @@ export default {
           refund: "REFUNDING"
         }
       ];
-      const obj = {};
-      DATE.map(e => {
-        obj[e.date] = e.refund;
-      });
-      for (let i = 0; i < total_calendar_list.length; i++) {
-        if (
-          obj[total_calendar_list[i].date] !== undefined &&
-          total_calendar_list[i].type === "nowMonth"
-        ) {
-          total_calendar_list[i].refund = obj[total_calendar_list[i].date];
-        }
-      }
-      console.log(total_calendar_list);
-      return total_calendar_list;
+      this._map(DATE, CALENDAR);
+      return CALENDAR;
     },
     handleDayClick(item) {
-      if (item.type === "normal") {
+      if (item.type === "nowMonth") {
         // do anything...
         this.selectedDate = Number(item.day);
+        console.log();
       }
     },
     handlePreMonth() {
@@ -223,46 +218,6 @@ export default {
         this.selectedMonth = this.selectedMonth + 1;
         this.selectedDate = 1;
       }
-    },
-    _toDou(iNum) {
-      //补零
-      return iNum * 1 < 10 ? "0" + iNum : "" + iNum;
-    },
-    _getDateStr(AddDayCount, dateStr, type) {
-      //格式化日期
-      var dd;
-      if (!dateStr) {
-        dd = new Date();
-      } else {
-        // 判断是否为IOS
-        const isIOS = !!navigator.userAgent.match(
-          /\(i[^;]+;( U;)? CPU.+Mac OS X/
-        );
-
-        let formatDateStr = isIOS ? dateStr.replace(/-/g, "/") : dateStr;
-        dd = new Date(
-          formatDateStr.length < 12
-            ? formatDateStr + " 00:00:00"
-            : formatDateStr
-        );
-      }
-      dd.setDate(dd.getDate() + AddDayCount); // 获取AddDayCount天后的日期
-
-      let y = dd.getFullYear();
-      let m;
-      let d;
-      if (type === "lhRili") {
-        m = dd.getMonth() + 1;
-        d = dd.getDate();
-      } else {
-        let currentMon = dd.getMonth() + 1;
-        let getDate = dd.getDate();
-        m = currentMon < 10 ? "0" + currentMon : currentMon; // 获取当前月份的日期，不足10补0
-        d = getDate < 10 ? "0" + getDate : getDate; // 获取当前几号，不足10补0
-      }
-
-      let time = y + "-" + m + "-" + d;
-      return time;
     }
   }
 };
@@ -368,25 +323,45 @@ export default {
     flex-shrink: 0;
     box-shadow: 0;
     position: relative;
+    transition: 0.3s all;
+    &::after {
+      display: none;
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &.main__block__refunded {
+      &::after {
+        display: block;
+        background: red;
+      }
+    }
+    &.main__block__refunding {
+      &::after {
+        display: block;
+        background: #ccc;
+      }
+    }
+    &.main__block__selected {
+      background-color: #333;
+      color: #fff;
+    }
     &.main__block__disabled {
-      transition: 0.2s all;
       color: #cbc9d5;
     }
-  }
-  .main__block__today {
-    transition: 0.5s all;
-    background-color: #ff8200;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(171, 171, 171, 0.5);
-  }
-  .main__block__refunding {
-    transition: 0.5s all;
-    background-color: red;
-    color: #fff;
-  }
-  .main__block__refunded {
-    transition: 0.5s all;
-    background-color: #ccc;
+    &.main__block__today__selected {
+      color: #fff;
+      background: #ff8200;
+    }
+    &.main__block__today {
+      color: #ff8200 !important;
+      background: #fff !important;
+    }
   }
 }
 </style>

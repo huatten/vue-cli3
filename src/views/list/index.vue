@@ -29,9 +29,9 @@
           <div class="main__block"
                :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected': item.isToday && item.day === selectedDate,'main__block__today' : item.isToday, 'main__block__refunded': item.refund==='REFUNDED', 'main__block__refunding': item.refund==='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type === 'nowMonth'}"
                @click.prevent="handleDayClick(item)"
-               v-for="(item) in getMonthDays(selectedYear, selectedMonth)"
+               v-for="(item) in CALENDAR"
                :key="item.type + item.day">
-            {{item.isToday ? "今天" : item.day}}
+            {{item.day}}
           </div>
         </div>
       </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import axios from "axios";
 import Swiper from "swiper";
 import timeUtil from "../../assets/js/utils/calendar.js";
 export default {
@@ -64,7 +65,7 @@ export default {
         { mid: "11", name: "11月" },
         { mid: "12", name: "12月" }
       ],
-      CALENDAR: "",
+      CALENDAR: [],
       today: "", //今天
       currentDate: "", //服务器当前时间 2019-02-20
       selectedFullDate: "", //手动选择的日期
@@ -78,6 +79,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initScroll();
+      this.getMonthDays(this.selectedYear, this.selectedMonth);
     });
   },
   methods: {
@@ -115,6 +117,8 @@ export default {
             this._slide(swiperWidth, maxTranslate, maxWidth);
             //更改class
             this.selectedMonth = this.mySwiper.clickedIndex;
+
+            this.getMonthDays(this.selectedYear, this.selectedMonth);
           },
           touchmove: e => {
             //解决拖动警告
@@ -131,7 +135,7 @@ export default {
       //导航移动
       const maxWidth = -maxTranslate + swiperWidth / 2;
     },
-    _slide(swiperWidth, maxTranslate, maxWidth) {
+    _slide() {
       //点击的nav
       const slide = this.mySwiper.slides[this.mySwiper.clickedIndex];
       //点击的nav offsetLeft距离浏览器左边距离
@@ -166,35 +170,28 @@ export default {
         this.selectedMonth + 1
       )}-${timeUtil._toDou(this.selectedDate)}`;
     },
+    _filter(year, month) {
+      return new Promise(resolve => {
+        axios
+          .get(" https://easy-mock.com/mock/5c4137f5cee47f2c67974e24/api/dates")
+          .then(res => {
+            const data = res.data;
+            window.CALENDAR = timeUtil.getMonthList(new Date(year, month));
+            if (data.code === 0) {
+              this._map(data.data, window.CALENDAR);
+              resolve(window.CALENDAR);
+            }
+          });
+      });
+    },
     //渲染日期
-    getMonthDays(year, month) {
-      let CALENDAR = timeUtil.getMonthList(new Date(year, month));
-      const DATE = [
-        {
-          date: "2019-02-02",
-          refund: "REFUNDED"
-        },
-        {
-          date: "2019-02-06",
-          refund: "REFUNDED"
-        },
-        {
-          date: "2019-02-18",
-          refund: "REFUNDING"
-        },
-        {
-          date: "2019-02-25",
-          refund: "REFUNDING"
-        }
-      ];
-      this._map(DATE, CALENDAR);
-      return CALENDAR;
+    async getMonthDays(year, month) {
+      this.CALENDAR = await this._filter(year, month);
     },
     handleDayClick(item) {
       if (item.type === "nowMonth") {
         // do anything...
         this.selectedDate = Number(item.day);
-        console.log();
       }
     },
     handlePreMonth() {
@@ -243,6 +240,7 @@ export default {
   justify-content: space-between;
   height: 90px;
   overflow: hidden;
+  box-shadow: 0px 8px 24px 0px rgba(225, 227, 237, 0.5);
   .current__year {
     padding-left: 30px;
     flex: 0 0 150px;
@@ -287,17 +285,14 @@ export default {
 }
 .calendar__main {
   width: 700px;
-  max-width: 700px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  padding-top: 19px;
+  margin: 10px 0 15px 0;
   .main__head {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
-    margin-bottom: 20px;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
     border-radius: 2px;
     display: flex;
     align-items: center;
@@ -308,11 +303,9 @@ export default {
     flex-shrink: 0;
   }
   .main__block {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
-    margin-bottom: 20px;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
     border-radius: 50%;
     font-size: 25px;
     display: flex;

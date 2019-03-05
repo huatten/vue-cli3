@@ -13,7 +13,7 @@
                 :class="{cur__month:i === selectedMonth}"
                 v-for="(item ,i) in calendarMonth" 
                 :data-month="item.mid"
-                style="width: 160px"
+                :style="{width: navItemWidth}"
                 :key="i">
                   {{item.name}}
                 </div>
@@ -73,7 +73,7 @@ export default {
       selectedMonth: "",
       selectedDate: "",
       mySwiper: null,
-      navItemWidth: 160
+      navItemWidth: "115px"
     };
   },
   mounted() {
@@ -172,16 +172,20 @@ export default {
     },
     _filter(year, month) {
       return new Promise(resolve => {
+        window.CALENDAR = timeUtil.getMonthList(new Date(year, month));
         axios
           .get(" https://easy-mock.com/mock/5c4137f5cee47f2c67974e24/api/dates")
           .then(res => {
             const data = res.data;
-            window.CALENDAR = timeUtil.getMonthList(new Date(year, month));
             if (data.code === 0) {
               this._map(data.data, window.CALENDAR);
               resolve(window.CALENDAR);
             }
+          })
+          .catch(() => {
+            resolve(window.CALENDAR);
           });
+        resolve(window.CALENDAR);
       });
     },
     //渲染日期

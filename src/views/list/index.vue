@@ -114,7 +114,7 @@ export default {
             //滑动时间
             this.mySwiper.setTransition(300);
             //滑动
-            this._slide(swiperWidth, maxTranslate, maxWidth);
+            this._slide();
             //更改class
             this.selectedMonth = this.mySwiper.clickedIndex;
 
@@ -127,13 +127,6 @@ export default {
           }
         }
       });
-      //导航可视宽度
-      const swiperWidth = this.mySwiper.width;
-      //导航最大移动距离
-      const maxTranslate =
-        swiperWidth - parseInt(this.navItemWidth) * this.mySwiper.slides.length;
-      //导航移动
-      const maxWidth = -maxTranslate + swiperWidth / 2;
     },
     _slide() {
       //点击的nav
@@ -145,14 +138,14 @@ export default {
       //导航可视宽度
       const clientWidth = this.mySwiper.width;
       //导航总宽度
-      const navWidth = slideWidth * this.mySwiper.slides.length;
+      const swiperWidth = slideWidth * this.mySwiper.slides.length;
       if (slideLeft < (clientWidth - parseInt(slideWidth)) / 2) {
         this.mySwiper.setTranslate(0);
       } else if (
         slideLeft >
-        navWidth - parseInt(slideWidth + clientWidth) / 2
+        swiperWidth - parseInt(slideWidth + clientWidth) / 2
       ) {
-        this.mySwiper.setTranslate(clientWidth - navWidth);
+        this.mySwiper.setTranslate(clientWidth - swiperWidth);
       } else {
         this.mySwiper.setTranslate(
           (clientWidth - parseInt(slideWidth)) / 2 - slideLeft

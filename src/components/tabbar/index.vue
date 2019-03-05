@@ -1,12 +1,13 @@
 <template>
-  <div class="m-tabbar" >
-    <div class="swiper-container" :class="options.container" id="tabbar">
+  <div class="m-tabbar">
+    <div class="swiper-container" :class="options.container">
       <div class="swiper-wrapper" >
         <div 
           class="m-tabbar-item swiper-slide"
-          :class="{'m-tabbar-item-checked' : index === slideOptions.slideIndex}" 
+          :class="{'m-tabbar-item-checked' : index === slideOptions.slideIndex}"
           v-for="(item, index) in slideArr"
           :style="[slideStyle]" 
+          :data-id="options.slideId[index]"
           :key="index">{{item}}</div>
           <!-- 下划线 -->
         <div 
@@ -33,9 +34,9 @@ export default {
         //宽度
         width: this.options.width || "100px",
         //高度
-        height: this.options.height || "60px",
+        height: this.options.height || "80px",
         //垂直高度
-        lineHeight: this.options.height || "60px"
+        lineHeight: this.options.height || "80px"
       },
       downLineStyle: {
         //下划线高度
@@ -59,7 +60,7 @@ export default {
       if (this.mySwiper) {
         this.mySwiper.destroy(true, false);
       }
-      this.mySwiper = new Swiper("#tabbar", {
+      this.mySwiper = new Swiper(`.${this.options.container}`, {
         slidesPerView: "auto",
         freeMode: true,
         freeModeMomentumRatio: 0.5,
@@ -77,43 +78,46 @@ export default {
             //滑动时间
             this.mySwiper.setTransition(300);
             //滑动
-            this._slideMove(swiperWidth, maxTranslate, maxWidth);
+            this._slideMove();
             //更改class
             this.slideOptions.slideIndex = this.mySwiper.clickedIndex;
             //下划线
             this.$refs.slideDownLine.style.transform = `translateX(${this
               .slideOptions.slideIndex * parseInt(this.slideStyle.width)}px)`;
+            //回调函数
+            this.$emit(
+              "callback",
+              event,
+              this.mySwiper.clickedIndex,
+              event.target.innerText,
+              event.target.dataset.id
+            );
           }
         }
       });
-      //swiper可视宽度
-      const swiperWidth = this.mySwiper.width;
-      //swiper最大移动距离
-      const maxTranslate =
-        swiperWidth - parseInt(this.slideStyle.width) * this.slideArr.length;
-      //
-      const maxWidth = -maxTranslate + swiperWidth / 2;
     },
-    _slideMove(swiperWidth, maxTranslate, maxWidth) {
-      //点击的slide
+    _slideMove() {
+      //点击的nav
       const slide = this.mySwiper.slides[this.mySwiper.clickedIndex];
-      //点击的slide offsetLeft距离浏览器左边距离
+      //点击的nav offsetLeft距离浏览器左边距离
       const slideLeft = slide.offsetLeft;
-      //点击的slide的可视宽度
+      //点击的nav的可视宽度
       const slideWidth = slide.clientWidth;
-      // 被点击slide的中心点
-      const slideCenter = slideLeft + slideWidth / 2;
-      //当中心点距离少于一半宽度时
-      if (
-        slideWidth * this.mySwiper.slides.length < swiperWidth ||
-        slideCenter < swiperWidth / 2
-      ) {
+      //导航可视宽度
+      const clientWidth = this.mySwiper.width;
+      //导航总宽度
+      const swiperWidth = slideWidth * this.mySwiper.slides.length;
+      if (slideLeft < (clientWidth - parseInt(slideWidth)) / 2) {
         this.mySwiper.setTranslate(0);
-      } else if (slideCenter > maxWidth) {
-        this.mySwiper.setTranslate(maxTranslate);
+      } else if (
+        slideLeft >
+        swiperWidth - parseInt(slideWidth + clientWidth) / 2
+      ) {
+        this.mySwiper.setTranslate(clientWidth - swiperWidth);
       } else {
-        const nowTlanslate = slideCenter - swiperWidth / 2;
-        this.mySwiper.setTranslate(-nowTlanslate);
+        this.mySwiper.setTranslate(
+          (clientWidth - parseInt(slideWidth)) / 2 - slideLeft
+        );
       }
     }
   }
@@ -122,9 +126,34 @@ export default {
 <style lang="scss" scoped>
 .m-tabbar {
   background: #fff;
+  &.m-tabbar-more {
+    position: relative;
+    &::before {
+      pointer-events: none;
+      content: "";
+      height: 100%;
+      width: 80px;
+      position: absolute;
+      top: 0;
+      z-index: 3;
+      left: 0;
+      background: linear-gradient(90deg, #fff, rgba(230, 0, 68, 0));
+    }
+    &::after {
+      pointer-events: none;
+      content: "";
+      height: 100%;
+      width: 80px;
+      position: absolute;
+      top: 0;
+      z-index: 3;
+      right: 0;
+      background: linear-gradient(270deg, #fff, rgba(230, 0, 68, 0));
+    }
+  }
   .swiper-container {
-    width: 700px;
-    margin: 50px auto;
+    width: 100%;
+    margin: 0 auto;
     position: relative;
     overflow-x: hidden;
   }
@@ -145,7 +174,6 @@ export default {
       font-size: 28px;
       text-align: center;
       color: #333;
-      display: block;
       &.m-tabbar-item-checked {
         color: #f90;
       }

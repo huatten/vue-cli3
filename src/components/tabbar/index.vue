@@ -18,7 +18,7 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Swiper from "swiper";
+import Swiper from 'swiper/dist/js/swiper.js'; //reason => https://github.com/nolimits4web/swiper/issues/2263
 export default {
   name: "MTabbar",
   props: {

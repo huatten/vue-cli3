@@ -42,7 +42,7 @@
 
 <script type="text/ecmascript-6">
 import axios from "axios";
-import Swiper from "swiper";
+import Swiper from "swiper/dist/js/swiper.js"; //reason => https://github.com/nolimits4web/swiper/issues/2263
 import timeUtil from "../../assets/js/utils/calendar.js";
 export default {
   name: "listPage",
@@ -85,6 +85,7 @@ export default {
   methods: {
     _map(arr1, arr2) {
       //arr1 ==> arr2
+      let result = arr1.map(k => {if(k.date) {k.date = k.date.replace(/\-/g, '/')};return k;});
       const obj = {};
       arr1.map(e => {
         obj[e.date] = e.refund;
@@ -178,7 +179,6 @@ export default {
           .catch(() => {
             resolve(window.CALENDAR);
           });
-        resolve(window.CALENDAR);
       });
     },
     //渲染日期

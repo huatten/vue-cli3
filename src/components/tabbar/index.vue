@@ -1,24 +1,26 @@
 <template>
   <div class="m-tabbar">
     <div class="swiper-container" :class="options.container">
-      <div class="swiper-wrapper" >
-        <div 
+      <div class="swiper-wrapper">
+        <div
           class="m-tabbar-item swiper-slide"
           :class="{'m-tabbar-item-checked' : index === slideOptions.slideIndex}"
           v-for="(item, index) in slideArr"
-          :style="[slideStyle]" 
           :data-id="options.slideId[index]"
-          :key="index">{{item}}</div>
-          <!-- 下划线 -->
-        <div 
+          :key="index"
+        >{{item}}</div>
+        <!-- 下划线 -->
+        <div
           :style="{width: slideStyle.width, height: downLineStyle.downLineHeight, background: downLineStyle.downLineColor}"
-          ref="slideDownLine" class="m-tabbar-line"></div>
-    </div>
+          ref="slideDownLine"
+          class="m-tabbar-line"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Swiper from 'swiper/dist/js/swiper.js'; //reason => https://github.com/nolimits4web/swiper/issues/2263
+import Swiper from "swiper/dist/js/swiper.js"; //reason => https://github.com/nolimits4web/swiper/issues/2263
 export default {
   name: "MTabbar",
   props: {
@@ -50,6 +52,11 @@ export default {
       }
     };
   },
+  computed: {
+    slideWidth() {
+      return document.querySelector(".m-tabbar-item").clientWidth;
+    }
+  },
   mounted() {
     this.$nextTick(() => {
       this.initScroll();
@@ -72,7 +79,7 @@ export default {
             this.slideOptions.slideIndex = this.options.index || 0;
             //下划线
             this.$refs.slideDownLine.style.transform = `translateX(${this
-              .slideOptions.slideIndex * parseInt(this.slideStyle.width)}px)`;
+              .slideOptions.slideIndex * parseInt(this.slideWidth)}px)`;
           },
           tap: () => {
             //滑动时间
@@ -83,7 +90,7 @@ export default {
             this.slideOptions.slideIndex = this.mySwiper.clickedIndex;
             //下划线
             this.$refs.slideDownLine.style.transform = `translateX(${this
-              .slideOptions.slideIndex * parseInt(this.slideStyle.width)}px)`;
+              .slideOptions.slideIndex * parseInt(this.slideWidth)}px)`;
             //回调函数
             this.$emit(
               "callback",
@@ -174,6 +181,9 @@ export default {
       font-size: 28px;
       text-align: center;
       color: #333;
+      padding: 0 32px;
+      height: 80px;
+      line-height: 80px;
       &.m-tabbar-item-checked {
         color: #f90;
       }

@@ -39,6 +39,7 @@ const cdn = {
 };
 
 module.exports = {
+  publicPath: "./",
   chainWebpack: config => {
     // 目录别名alias
     config.resolve.alias

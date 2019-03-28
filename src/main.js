@@ -6,8 +6,10 @@ import "assets/scss/index";
 import "components/index";
 import "assets/icons/index";
 import "assets/js/filter/index";
+import http from "assets/js/request/index";
 Vue.config.productionTip = false;
 
+Vue.prototype.$http = http;
 new Vue({
   router,
   store,

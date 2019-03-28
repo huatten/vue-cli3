@@ -38,9 +38,23 @@ export default {
       }
     };
   },
+  mounted(){
+    this.getRes();
+  },
   methods: {
     callback(event, index, val, id) {
       console.log(val, id);
+    },
+    getRes() {
+      this.$http({
+        url: "openAccountResult",
+        method: "POST",
+        callback: e => {
+          console.log(e);
+        }
+      }).then(res => {
+        console.log(res);
+      });
     }
   }
 };

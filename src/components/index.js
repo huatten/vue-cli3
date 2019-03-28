@@ -4,6 +4,5 @@ requireComponent.keys().forEach(component => {
   const componentConfig = requireComponent(component);
   const ctrl = componentConfig.default || componentConfig;
   Vue.component(ctrl.name, ctrl);
-  console.log(ctrl.name);
   console.log(ctrl);
 });

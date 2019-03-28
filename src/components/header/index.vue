@@ -10,9 +10,6 @@
 <script type="text/ecmascript-6">
 export default {
   name: "MHeader",
-  data() {
-    return {};
-  },
   props: {
     hasBack: {
       type: Boolean,
@@ -26,7 +23,10 @@ export default {
       type: Boolean,
       default: false
     }
-  }
+  },
+  data() {
+    return {};
+  },
 };
 </script>
 <style lang="scss" scoped>

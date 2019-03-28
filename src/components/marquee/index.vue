@@ -13,15 +13,15 @@
 <script type="text/ecmascript-6">
 export default {
   name: "MMarquee",
-  data() {
-    return {
-      animate: false
-    };
-  },
   props: {
     scrollList: {
       type: Array
     }
+  },
+  data() {
+    return {
+      animate: false
+    };
   },
   mounted() {
     setInterval(this.scroll, 2100);

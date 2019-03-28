@@ -2,6 +2,7 @@
  * https://github.com/staven630/vue-cli3-config
  * https://juejin.im/post/5c4a6fcd518825469414e062?utm_source=gold_browser_extension#heading-3
  * https://juejin.im/post/5c3c544c6fb9a049d37f5903
+ * https://juejin.im/post/5c403bcaf265da61587765c9
  */
 const path = require("path");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
@@ -99,11 +100,15 @@ module.exports = {
       //去除无效css
       plugins.push(
         new PurgecssPlugin({
-          paths: glob.sync([
-            path.join(__dirname, "./src/index.html"),
-            path.join(__dirname, "./**/*.vue"),
-            path.join(__dirname, "./src/**/*.js")
-          ])
+          paths: glob.sync(
+            [
+              path.join(__dirname, "./src/index.html"),
+              path.join(__dirname, "./**/*.vue"),
+              path.join(__dirname, "./src/**/*.js")
+            ],
+            { nodir: true }
+          ),
+          only: ["bundle", "vendor"]
         })
       );
       //生产环境去除console
@@ -146,6 +151,8 @@ module.exports = {
         });
   },
   css: {
+    // 是否使用css分离插件
+    extract: true,
     loaderOptions: {
       // 配置scss全局变量
       sass: {

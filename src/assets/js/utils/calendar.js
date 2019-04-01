@@ -106,7 +106,7 @@ export default {
   },
   // format日期
   dateFormat(date) {
-    date = typeof date === "string" ? new Date(date.replace(/\-/g, "/")) : date;
+    date = typeof date === "string" ? new Date(date.replace(/-/g, "/")) : date;
     return (
       date.getFullYear() +
       "/" +

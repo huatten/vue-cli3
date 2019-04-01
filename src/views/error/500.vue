@@ -9,8 +9,12 @@
 <script type="text/ecmascript-6">
 export default {
   name: "M500",
-  data() {
-    return {};
+  methods: {
+    fresh() {
+      this.$router.replace({
+        path: this.$route.query.redirectUrl
+      });
+    }
   }
 };
 </script>

@@ -22,6 +22,8 @@
       <m-marquee :scrollList="scrollList"></m-marquee>
     </m-content>
     <m-footer></m-footer>
+    <!--confirm-->
+    <m-confirm ref="confirm" @confirm="_confirmClear" :text="alertPrizeName"></m-confirm>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -53,6 +55,11 @@ export default {
       prizeUrl: "", // 奖品图片
       scrollList: [] //滚动中奖信息
     };
+  },
+  computed:{
+    alertPrizeName(){
+      return `恭喜您抽到了${this.prizeName}啦啦啦~`;
+    }
   },
   mounted() {
     this.getinfo();
@@ -161,11 +168,17 @@ export default {
     //展示中奖弹层
     showAlert() {
       setTimeout(() => {
-        alert(`恭喜你抽到了${this.prizeName}`);
+        this._showConfirm();
       }, 200);
       setTimeout(() => {
         this.init();
       }, 300);
+    },
+    _showConfirm() {
+      this.$refs.confirm.show();
+    },
+    _confirmClear() {
+      this.$refs.confirm.hide();
     }
   }
 };

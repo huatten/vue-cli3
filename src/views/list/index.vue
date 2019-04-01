@@ -6,33 +6,29 @@
       <div class="calendar">
         <div class="calendar__header">
           <div class="current__year">{{selectedYear}}年</div>
-          <div class="current__month swiper-container" id="topNav" >
-             <div class="swiper-wrapper scroll__month__body">
-                <div 
-                class="swiper-slide scroll__item" 
+          <div class="current__month swiper-container" id="topNav">
+            <div class="swiper-wrapper scroll__month__body">
+              <div
+                class="swiper-slide scroll__item"
                 :class="{cur__month:i === selectedMonth}"
-                v-for="(item ,i) in calendarMonth" 
+                v-for="(item ,i) in calendarMonth"
                 :data-month="item.mid"
                 :style="{width: navItemWidth}"
-                :key="i">
-                  {{item.name}}
-                </div>
-             </div>
+                :key="i"
+              >{{item.name}}</div>
+            </div>
           </div>
           <div class="toogle__icon"></div>
         </div>
         <div class="calendar__main">
-          <div class="main__head" v-for="(item, index) in calendarWeek"
-              :key="index">
-            {{item}}
-          </div>
-          <div class="main__block"
-               :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected': item.isToday && item.day === selectedDate,'main__block__today' : item.isToday, 'main__block__refunded': item.refund==='REFUNDED', 'main__block__refunding': item.refund==='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type === 'nowMonth'}"
-               @click.prevent="handleDayClick(item)"
-               v-for="(item) in CALENDAR"
-               :key="item.type + item.day">
-            {{item.day}}
-          </div>
+          <div class="main__head" v-for="(item, index) in calendarWeek" :key="index">{{item}}</div>
+          <div
+            class="main__block"
+            :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected': item.isToday && item.day === selectedDate,'main__block__today' : item.isToday, 'main__block__refunded': item.refund==='REFUNDED', 'main__block__refunding': item.refund==='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type === 'nowMonth'}"
+            @click.prevent="handleDayClick(item)"
+            v-for="(item) in CALENDAR"
+            :key="item.type + item.day"
+          >{{item.day}}</div>
         </div>
       </div>
     </m-content>
@@ -43,7 +39,7 @@
 <script type="text/ecmascript-6">
 import axios from "axios";
 import Swiper from "swiper/dist/js/swiper.js"; //reason => https://github.com/nolimits4web/swiper/issues/2263
-import timeUtil from "../../assets/js/utils/calendar.js";
+import timeUtil from "../../assets/js/utils/calendar";
 export default {
   name: "listPage",
   data() {
@@ -85,7 +81,12 @@ export default {
   methods: {
     _map(arr1, arr2) {
       //arr1 ==> arr2
-      let result = arr1.map(k => {if(k.date) {k.date = k.date.replace(/\-/g, '/')};return k;});
+      arr1.map(k => {
+        if (k.date) {
+          k.date = k.date.replace(/-/g, "/");
+        }
+        return k;
+      });
       const obj = {};
       arr1.map(e => {
         obj[e.date] = e.refund;

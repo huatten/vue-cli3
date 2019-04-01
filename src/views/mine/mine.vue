@@ -38,7 +38,7 @@ export default {
       }
     };
   },
-  mounted(){
+  mounted() {
     this.getRes();
   },
   methods: {

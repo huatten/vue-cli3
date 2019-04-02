@@ -10,32 +10,37 @@ const glob = require("glob-all"); //If you need multiple paths use the npm packa
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV); //是否生产环境
+const IS_DEV = ["development", "dev"].includes(process.env.NODE_ENV); //是否开发环境
 const IS_GZIP = true; //是否开启Gzip压缩
+const IS_OPENCDN = true; // 是否开启cdn
 const resolve = dir => path.join(__dirname, dir);
 
-// cdn预加载使用
-const externals = {
-  vue: "Vue",
-  "vue-router": "VueRouter",
-  vuex: "Vuex",
-  axios: "axios"
-};
-
-const cdn = {
-  // 开发环境
-  dev: {
-    css: [],
-    js: []
+const externalsConfig = {
+  // dns预加载，优化接口请求
+  dnsPrefetch: ["http://sinacloud.net"],
+  // cdn预加载使用
+  externals: {
+    vue: "Vue",
+    "vue-router": "VueRouter",
+    vuex: "Vuex",
+    axios: "axios"
   },
-  // 生产环境
-  build: {
-    css: [],
-    js: [
-      "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js",
-      "https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js",
-      "https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js",
-      "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"
-    ]
+  cdn: {
+    // 开发环境
+    dev: {
+      css: [],
+      js: []
+    },
+    // 生产环境
+    build: {
+      css: [],
+      js: [
+        "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js",
+        "https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js",
+        "https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js",
+        "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"
+      ]
+    }
   }
 };
 
@@ -52,14 +57,16 @@ module.exports = {
       .set("icons", resolve("src/icons"))
       .set("view", resolve("src/view"));
 
-    //添加CDN参数到htmlWebpackPlugin配置中， 详见public/index.html 修改
+    //添加CDN参数到htmlWebpackPlugin配置中， 具体见public/index.html 修改
     config.plugin("html").tap(args => {
-      if (process.env.NODE_ENV === "production") {
-        args[0].cdn = cdn.build;
+      if (IS_PROD && IS_OPENCDN) {
+        args[0].cdn = externalsConfig.cdn.build;
       }
-      if (process.env.NODE_ENV === "development") {
-        args[0].cdn = cdn.dev;
+      if (IS_DEV) {
+        args[0].cdn = externalsConfig.cdn.dev;
       }
+      // dns预加载
+      args[0].dnsPrefetch = externalsConfig.dnsPrefetch;
       return args;
     });
 
@@ -145,12 +152,15 @@ module.exports = {
       config.plugins = [...config.plugins, ...plugins];
     }
 
-    //cdn引用时配置externals
-    IS_PROD
-      ? (config.externals = externals)
-      : (config.devServer = {
-          disableHostCheck: true
-        });
+    //生产环境npm包转CDN
+    if (IS_PROD) {
+      IS_OPENCDN && (config.externals = externalsConfig.externals);
+    } else {
+      //关闭host check，方便使用ngrok之类的内网转发工具
+      config.devServer = {
+        disableHostCheck: true
+      };
+    }
   },
   css: {
     // 是否使用css分离插件

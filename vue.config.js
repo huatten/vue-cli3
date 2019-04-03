@@ -110,15 +110,24 @@ module.exports = {
       //去除无效css
       plugins.push(
         new PurgecssPlugin({
-          paths: glob.sync(
-            [
-              path.join(__dirname, "./src/index.html"),
-              path.join(__dirname, "./**/*.vue"),
-              path.join(__dirname, "./src/**/*.js")
-            ],
-            { nodir: true }
-          ),
-          only: ["bundle", "vendor"]
+          paths: glob.sync([resolve("./**/*.vue")]),
+          extractors: [
+            {
+              extractor: class Extractor {
+                static extract(content) {
+                  const validSection = content.replace(
+                    /<style([\s\S]*?)<\/style>+/gim,
+                    ""
+                  );
+                  return validSection.match(/[A-Za-z0-9-_:/]+/g) || [];
+                }
+              },
+              extensions: ["html", "vue"]
+            }
+          ],
+          whitelist: ["html", "body"],
+          whitelistPatterns: [/el-.*/],
+          whitelistPatternsChildren: [/^token/, /^pre/, /^code/]
         })
       );
       //生产环境去除console

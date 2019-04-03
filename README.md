@@ -6,10 +6,14 @@
 - [√ 添加别名 alias](#alias)
 - [√ 配置 externals和cdn开关](#externals)
 - [√ 去除生产环境的 console.log](#console)
+- [√ 去除无效冗余的css](#css)
 - [√ 图片压缩](#tiny)
 - [√ 开启Gzip压缩](#gzip)
 - [√ 添加打包分析](#analyz)
 - [√ 为 sass 配置全局变量](#sass)
+- [√ 布局方案以及px自动转换rem](#px2rem)
+- [√ 全局组件自动注册](#component)
+- [√ 路由拆分模块、懒加载以及自动引入](#router)
 
 ### <span id="install">☞ 安装@vue/cli并初始化</span>
 ```
@@ -48,7 +52,7 @@ vue create vue-cli3
 9.是否保存这份预设配置？<br/>
 &emsp;&emsp;选Y的话，下次创建一个vue项目，可以直接使用这套预设配置文件，而无需再进行配置<br/>
 
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 ### <span id="env">☞ 配置多环境变量</span>
 
 不得不说不认真仔细看文档的话，这个是个坑... [
@@ -101,7 +105,7 @@ module.export = {
 ```
 这样就可以直接运行 `npm run analyz` 来进行打包分析了。
 
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 
 ### <span id="alias">☞ 添加别名 alias</span>
 创建 import 或 require 的别名，来确保模块引入变得更简单,[resolve.alias 文档地址](https://doc.webpack-china.org/configuration/resolve/#resolve-alias)。
@@ -124,7 +128,7 @@ module.export = {
   }
 }
 ```
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 
 ### <span id="externals">☞ 配置 externals和cdn开关</span>
 正常情况下，项目中的依赖包，如 vue, vue-router, axios, lodash, echarts等这样的包，都是直接从node_modules目录中打包进项目中，无形中增加了打包后的文件体积。<br/>
@@ -225,7 +229,7 @@ module.export = {
   </body>
 </html>
 ```
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 ### <span id="console">☞ 去除生产环境的console.log</span>
 console.log用于向开发控制台打印一条消息，常用来在开发时候调试分析，有时候在开发的时候可能需要打印一些对象信息，但是在发布的时候忘记去掉console语句，这可能会造成一定的内存泄漏，在传递给console.log的对象是不能被垃圾回收的，因为在代码运行之后需要在开发工具能查看对象信息，所以最好不要在生产环境中console.log任何对象。<br/>
 
@@ -261,7 +265,56 @@ module.export = {
   }
 }
 ```
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
+
+### <span id="console">☞ 去除无效冗余的css</span>
+当你正在建立一个网站，很可能你正在使用像Bootstrap，Materializecss，Foundation等css框架……但是你只会使用一小组框架，并且会包含大量未使用的CSS样式,Purgecss分析你的内容和你的css文件。然后它将文件中使用的选择器与内容文件中的选择器相匹配。它从你的CSS中删除未使用的选择器，导出更小的CSS文件。更多具体案例请移步[这里](https://github.com/FullHuman/purgecss)clone运行案例。<br/>
+purgecss-webpack-plugin更多详细用法和配置移步这里 [查看文档](https://cnpmjs.org/package/purgecss-webpack-plugin) <br/>
+
+安装插件 purgecss-webpack-plugin
+```
+npm i --save-dev glob-all purgecss-webpack-plugin
+```
+
+```javascript
+const path = require("path");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
+const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob
+const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV); //是否生产环境
+const resolve = dir => path.join(__dirname, dir);
+
+module.export = {
+  configureWebpack: config => {
+    if (IS_PROD) {
+      const plugins = [];
+      plugins.push(
+        new PurgecssPlugin({
+          paths: glob.sync([resolve("./**/*.vue")]),
+          extractors: [
+            {
+              extractor: class Extractor {
+                static extract(content) {
+                  const validSection = content.replace(
+                    /<style([\s\S]*?)<\/style>+/gim,
+                    ""
+                  );
+                  return validSection.match(/[A-Za-z0-9-_:/]+/g) || [];
+                }
+              },
+              extensions: ["html", "vue"]
+            }
+          ],
+          whitelist: ["html", "body"],
+          whitelistPatterns: [/el-.*/],
+          whitelistPatternsChildren: [/^token/, /^pre/, /^code/]
+        })
+      );
+      config.plugins = [...config.plugins, ...plugins];
+    }
+  }
+}
+```
+[▲ 返回目录](#top)
 
 ### <span id="tiny">☞ 图片压缩</span>
 1.安装 `image-webpack-loader`
@@ -285,7 +338,7 @@ module.export = {
   }
 }
 ```
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 
 ### <span id="gzip">☞ 开启Gzip压缩</span>
 gizp压缩是一种http请求优化方式，通过减少文件体积来提高加载速度。html、js、css文件甚至json数据都可以用它压缩，可以减小60%以上的体积，具体可以自行去搜索或者[点这里](https://segmentfault.com/a/1190000012571492)。<br/>
@@ -321,7 +374,7 @@ module.export = {
 ```
 更多详细配置信息说明，[点这里](https://github.com/webpack-contrib/compression-webpack-plugin)。<br/>
 
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 
 ### <span id="analyz">☞ 添加打包分析</span>
 1.安装webpack-bundle-analyzer插件
@@ -349,7 +402,7 @@ module.export = {
 ```
 npm run analyz
 ```
-[▲ 返回顶部](#top)
+[▲ 返回目录](#top)
 
 ### <span id="sass">☞ 为 sass 配置全局变量</span>
 我的sass目录
@@ -391,5 +444,179 @@ module.export = {
     }
   }
 }
-
  ```
+[▲ 返回目录](#top)
+
+### <span id="px2rem">☞ 布局方案以及px自动转换rem</span>
+移动端布局开发解决方案选择--hotcss，让移动端布局开发更加容易 [传送门](https://www.npmjs.com/package/hotcss)。
+
+1.在public/index.html中引入hotcss.js库，最好在head标签里面引入。<br/>
+
+2.如何实现px转换rem？<br/>
+&emsp;&emsp;方案一:定义sass函数方法<br>
+&emsp;&emsp;在scss文件的头部使用import将px2rem导入
+```scss
+@import 'scss/px2rem.scss';
+```
+&emsp;&emsp;若你的项目是单一尺寸设计图，那么你需要去px2rem.scss中定义全局的designWidth。
+```scss
+@function px2rem($px){
+  @return $px * 320 / $designWidth / 20 + rem;
+}
+$designWidth : 750; //如设计图是750 
+```
+&emsp;&emsp;方案二: 利用webpack插件postcss-plugin-px2rem和postcss-flexible实现自动转换<br>
+
+&emsp;&emsp;修改我们的 `postcss.config.js`
+
+```javascript
+module.exports = {
+  plugins: {
+    autoprefixer: {
+      browsers: ["> 0.01%", "Android >= 4.0", "Firefox ESR", "Ios >= 8.0"]
+    },
+    //更多配置参考：https://github.com/ant-tool/postcss-plugin-px2rem
+    "postcss-plugin-px2rem": {
+      rootValue: 750 / 16,
+      unitPrecision: 5,
+      propWhiteList: [],
+      propBlackList: [
+        "border-bottom",
+        "border-top",
+        "border-left",
+        "border-right",
+        "border",
+        "filter"
+      ],
+      selectorBlackList: ["ignore"],
+      ignoreIdentifier: false,
+      replace: true,
+      mediaQuery: false,
+      minPixelValue: 0
+    },
+    //更多配置参考：https://github.com/crossjs/postcss-flexible
+    "postcss-flexible": {
+      remUnit: 750 / 16,
+      threeVersion: false,
+      remVersion: true,
+      baseDpr: 2,
+      remPrecision: 6,
+      dprList: [2, 3]
+    }
+  }
+};
+```
+[▲ 返回目录](#top)
+
+### <span id="component">☞ 全局组件自动注册</span>
+在components目录下存放我们的公共全局组件(部分)
+```
+ |-- components
+    |-- header              //公共头部组件
+        |-- index.vue
+    |-- footer              //公共底部导航组件
+        |-- index.vue
+    |-- content             //内容滚动组件
+        |-- index.vue
+    |-- marquee             //消息滚动组件
+        |-- index.vue
+    |-- confirm             //confirm弹窗组件
+        |-- index.vue
+    |-- tabbar              //可滑动导航菜单组件
+        |-- index.vue
+    |-- index.js            //用来扫描全局对象并自动注册
+ ```
+
+ 在components中创建一个index.js入口文件，用来扫描全局对象并自动注册。
+
+ ```javascript
+import Vue from "vue";
+// 自动加载 components 目录下的 .js 结尾的文件
+const requireComponent = require.context("./", true, /\w+\.(vue)$/);
+requireComponent.keys().forEach(component => {
+  const componentConfig = requireComponent(component);
+  const ctrl = componentConfig.default || componentConfig;
+  Vue.component(ctrl.name, ctrl);
+});
+ ```
+[▲ 返回目录](#top)
+
+ ### <span id="router">☞ 路由拆分模块、懒加载以及自动引入</span>
+
+ 在此前的项目中，路由文件都是写在一个router.js中，这样做到后期路由有三四十个，很不利于维护，因此在项目开始前，我们就要考虑好路由的拆分，我的拆分原则是根据页面和业务功能模块拆分。
+ ```
+ |-- router
+    |-- error              //404、500等错误提示页面路由
+        |-- index.js
+    |-- home               //首页相关页面路由
+        |-- index.js
+    |-- list               //产品相关页面路由
+        |-- index.vue
+    |-- mine               //个人中心相关页面路由
+        |-- index.js
+    |-- index.js           //用来导入所有的路由子模块
+ ```
+ 例如：404、500等相关页面路由
+ ```javascript
+ /**
+ * @file 404、500等相关路由
+ */
+export default [
+  {
+    path: "/500",
+    name: "500",
+    component: resolve => {
+      require.ensure(
+        ["@/views/error/500.vue"],
+        () => {
+          resolve(require("@/views/error/500.vue"));
+        },
+        "500"
+      );
+    },
+    meta: {
+      docTitle: "500",
+      keepAlive: false
+    }
+  },
+  {
+    path: "*",
+    name: "404",
+    component: resolve => {
+      require.ensure(
+        ["@/views/error/404.vue"],
+        () => {
+          resolve(require("@/views/error/404.vue"));
+        },
+        "404"
+      );
+    },
+    meta: {
+      docTitle: "页面未找到"
+    }
+  }
+];
+ ```
+
+在根 index.js中自动导入所有子模块
+
+```javascript
+import Vue from "vue";
+import Router from "vue-router";
+Vue.use(Router);
+
+let routes = [];
+const routerContext = require.context("./", true, /index\.js$/);
+routerContext.keys().forEach(route => {
+  if (route.startsWith("./index")) return;  //根目录的 index.js 不处理
+  const routerModule = routerContext(route);
+  routes = [...routes, ...(routerModule.default || routerModule)];
+});
+
+export default new Router({
+  //mode: "history",
+  linkActiveClass: "active",
+  routes: routes
+});
+
+```

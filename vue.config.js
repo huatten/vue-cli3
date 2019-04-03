@@ -39,6 +39,7 @@ const externalsConfig = {
         "https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js",
         "https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js",
         "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"
+        //"https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/js/swiper.min.js"
       ]
     }
   }
@@ -82,7 +83,7 @@ module.exports = {
       .end();
 
     // 打包分析
-    process.env.NODE_ENV === "analyz" &&
+    process.env.VUE_APP_ENV === "analyz" &&
       config
         .plugin("webpack-bundle-analyzer")
         .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
@@ -168,7 +169,8 @@ module.exports = {
     loaderOptions: {
       // 配置scss全局变量
       sass: {
-        data: `@import "@/assets/scss/variable.scss";` //!!!切记;不能丢
+        data: `@import "@/assets/scss/mixin.scss";
+               @import "@/assets/scss/variable.scss";` //!!!切记;不能丢
       }
     }
   }

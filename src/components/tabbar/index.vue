@@ -4,14 +4,22 @@
       <div class="swiper-wrapper">
         <div
           class="m-tabbar-item swiper-slide"
-          :class="{'m-tabbar-item-checked' : index === slideOptions.slideIndex}"
+          :class="{
+            'm-tabbar-item-checked': index === slideOptions.slideIndex
+          }"
           v-for="(item, index) in slideArr"
           :data-id="options.slideId[index]"
           :key="index"
-        >{{item}}</div>
+        >
+          {{ item }}
+        </div>
         <!-- 下划线 -->
         <div
-          :style="{width: slideStyle.width, height: downLineStyle.downLineHeight, background: downLineStyle.downLineColor}"
+          :style="{
+            width: slideStyle.width,
+            height: downLineStyle.downLineHeight,
+            background: downLineStyle.downLineColor
+          }"
           ref="slideDownLine"
           class="m-tabbar-line"
         ></div>

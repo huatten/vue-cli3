@@ -70,7 +70,6 @@ module.exports = {
       args[0].dnsPrefetch = externalsConfig.dnsPrefetch;
       return args;
     });
-
     // 压缩图片
     config.module
       .rule("images")

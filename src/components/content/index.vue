@@ -1,6 +1,6 @@
 <template>
-  <div :class="['m-content',className]">
-     <slot></slot>
+  <div :class="['m-content', className]">
+    <slot></slot>
   </div>
 </template>
 <script type="text/ecmascript-6">

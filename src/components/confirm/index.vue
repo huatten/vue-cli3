@@ -3,15 +3,19 @@
     <div class="m-confirm" v-show="showFlag" @click.stop>
       <div class="confirm-wraper">
         <div class="confirm-cont">
-          <div class="title" v-if="title">{{title}}</div>
-          <p :class="[title ? 'has-title' : '','text']" v-html="text"></p>
+          <div class="title" v-if="title">{{ title }}</div>
+          <p :class="[title ? 'has-title' : '', 'text']" v-html="text"></p>
           <div class="oprate m-hairline-top">
             <div
               class="cancel m-hairline-right"
               v-if="cancelBtnText"
               @click="cancel"
-            >{{cancelBtnText}}</div>
-            <div class="confirm" v-if="confirmBtnText" @click="confirm">{{confirmBtnText}}</div>
+            >
+              {{ cancelBtnText }}
+            </div>
+            <div class="confirm" v-if="confirmBtnText" @click="confirm">
+              {{ confirmBtnText }}
+            </div>
           </div>
         </div>
       </div>

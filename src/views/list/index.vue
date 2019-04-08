@@ -5,30 +5,49 @@
       <!--日历-->
       <div class="calendar">
         <div class="calendar__header">
-          <div class="current__year">{{selectedYear}}年</div>
+          <div class="current__year">{{ selectedYear }}年</div>
           <div class="current__month swiper-container" id="topNav">
             <div class="swiper-wrapper scroll__month__body">
               <div
                 class="swiper-slide scroll__item"
-                :class="{cur__month:i === selectedMonth}"
-                v-for="(item ,i) in calendarMonth"
+                :class="{ cur__month: i === selectedMonth }"
+                v-for="(item, i) in calendarMonth"
                 :data-month="item.mid"
-                :style="{width: navItemWidth}"
+                :style="{ width: navItemWidth }"
                 :key="i"
-              >{{item.name}}</div>
+              >
+                {{ item.name }}
+              </div>
             </div>
           </div>
           <div class="toogle__icon"></div>
         </div>
         <div class="calendar__main">
-          <div class="main__head" v-for="(item, index) in calendarWeek" :key="index">{{item}}</div>
+          <div
+            class="main__head"
+            v-for="(item, index) in calendarWeek"
+            :key="index"
+          >
+            {{ item }}
+          </div>
           <div
             class="main__block"
-            :class="{'main__block__disabled': item.type !=='nowMonth', 'main__block__today__selected': item.isToday && item.day === selectedDate,'main__block__today' : item.isToday, 'main__block__refunded': item.refund==='REFUNDED', 'main__block__refunding': item.refund==='REFUNDING', 'main__block__selected':item.day === selectedDate && item.type === 'nowMonth'}"
+            :class="{
+              main__block__disabled: item.type !== 'nowMonth',
+              main__block__today__selected:
+                item.isToday && item.day === selectedDate,
+              main__block__today: item.isToday,
+              main__block__refunded: item.refund === 'REFUNDED',
+              main__block__refunding: item.refund === 'REFUNDING',
+              main__block__selected:
+                item.day === selectedDate && item.type === 'nowMonth'
+            }"
             @click.prevent="handleDayClick(item)"
-            v-for="(item) in CALENDAR"
+            v-for="item in CALENDAR"
             :key="item.type + item.day"
-          >{{item.day}}</div>
+          >
+            {{ item.day }}
+          </div>
         </div>
       </div>
     </m-content>

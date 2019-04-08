@@ -4,15 +4,17 @@
     <m-content :className="className">
       <div class="lottery">
         <ul>
-          <li 
-          v-for="(item, index) in prizeInfo" 
-          :key="index" 
-          ref="pice" 
-          :class="amplification_index === item.level ? 'selected' : item.class"
-          @click="startrolling(item)"
+          <li
+            v-for="(item, index) in prizeInfo"
+            :key="index"
+            ref="pice"
+            :class="
+              amplification_index === item.level ? 'selected' : item.class
+            "
+            @click="startrolling(item)"
           >
             <img :src="item.picUrlDesc" v-if="item.picUrlDesc" />
-           <template v-if="!item.level">
+            <template v-if="!item.level">
               <h4>立即抽奖</h4>
               <p>剩余1次</p>
             </template>
@@ -23,13 +25,17 @@
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->
-    <m-confirm ref="confirm" @confirm="_confirmClear" :text="alertPrizeName"></m-confirm>
+    <m-confirm
+      ref="confirm"
+      @confirm="_confirmClear"
+      :text="alertPrizeName"
+    ></m-confirm>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import axios from "axios";
 export default {
-  name: "indexpage",
+  name: "mHome",
   data() {
     return {
       className: "indexWrap",
@@ -56,8 +62,8 @@ export default {
       scrollList: [] //滚动中奖信息
     };
   },
-  computed:{
-    alertPrizeName(){
+  computed: {
+    alertPrizeName() {
       return `恭喜您抽到了${this.prizeName}啦啦啦~`;
     }
   },

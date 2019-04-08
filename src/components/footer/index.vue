@@ -1,20 +1,20 @@
 <template>
-<footer class="m-footer">
-  <div class="nav-bar">
-    <router-link title="首页" :to="{path:'index'}" exact>
-      <i class="icon-index"></i>
-      <span>首页</span>
-    </router-link>
-    <router-link title="项目" :to="{path:'list'}">
-      <i class="icon-list"></i>
-      <span>项目</span>
-    </router-link>
-    <router-link title="我的" :to="{path:'mine'}">
-      <i class="icon-mine"></i>
-      <span>我的</span>
-    </router-link>
-  </div>
-</footer>
+  <footer class="m-footer">
+    <div class="nav-bar">
+      <router-link title="首页" :to="{ path: 'index' }" exact>
+        <i class="icon-index"></i>
+        <span>首页</span>
+      </router-link>
+      <router-link title="项目" :to="{ path: 'list' }">
+        <i class="icon-list"></i>
+        <span>项目</span>
+      </router-link>
+      <router-link title="我的" :to="{ path: 'mine' }">
+        <i class="icon-mine"></i>
+        <span>我的</span>
+      </router-link>
+    </div>
+  </footer>
 </template>
 <script type="text/ecmascript-6">
 export default {

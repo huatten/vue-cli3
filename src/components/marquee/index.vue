@@ -1,11 +1,11 @@
 <template>
-  <div class="m-marquee" >
-    <ul class="m-marquee-cont" :class="{'m-marquee-top': animate}">
+  <div class="m-marquee">
+    <ul class="m-marquee-cont" :class="{ 'm-marquee-top': animate }">
       <li v-for="(item, index) in scrollList" :key="index">
-        <span>{{item.mobile}}</span>
-        <span>{{item.nickName}}</span>
-        <span>{{item.prizeName}}</span>
-        <span>{{item.createTime}}</span>
+        <span>{{ item.mobile }}</span>
+        <span>{{ item.nickName }}</span>
+        <span>{{ item.prizeName }}</span>
+        <span>{{ item.createTime }}</span>
       </li>
     </ul>
   </div>

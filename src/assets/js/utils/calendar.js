@@ -16,8 +16,8 @@ export default {
         ? 7
         : dateFirstOne.getDay()
       : dateFirstOne.getDay() == 0
-        ? 6
-        : dateFirstOne.getDay() - 1;
+      ? 6
+      : dateFirstOne.getDay() - 1;
   },
   /**
    * 获取当前日期上个月或者下个月

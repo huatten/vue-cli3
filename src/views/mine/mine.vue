@@ -3,7 +3,7 @@
     <m-header :hasBack="hasBack" :titleTxt="titleTxt"></m-header>
     <m-content>
       <div class="mine">
-         <m-tabbar :options="options" @callback="callback"></m-tabbar>
+        <m-tabbar :options="options" @callback="callback"></m-tabbar>
       </div>
     </m-content>
     <m-footer></m-footer>

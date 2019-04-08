@@ -2,7 +2,7 @@
   <header class="m-header">
     <div class="m-header-cont">
       <span class="m-back" v-if="hasBack"></span>
-      <h5 class="m-text">{{titleTxt}}</h5>
+      <h5 class="m-text">{{ titleTxt }}</h5>
       <span class="m-icon" v-if="rightIcon"></span>
     </div>
   </header>

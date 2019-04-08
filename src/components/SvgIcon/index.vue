@@ -5,7 +5,7 @@
     :class="[`svg-icon-${name}`, size]"
     :style="`fill:${fill}`"
   >
-    <use :xlink:href="`#${name}`"/>
+    <use :xlink:href="`#${name}`" />
   </svg>
 </template>
 <script type="text/ecmascript-6">

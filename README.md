@@ -14,6 +14,7 @@
 - [√ 布局方案以及px自动转换rem](#px2rem)
 - [√ 全局组件自动注册](#component)
 - [√ 路由拆分模块、懒加载以及自动引入](#router)
+- [√ 在项目中优雅的使用svg](#svg)
 
 ### <span id="install">☞ 安装@vue/cli并初始化</span>
 ```
@@ -620,3 +621,125 @@ export default new Router({
 });
 
 ```
+[▲ 返回目录](#top)
+
+### <span id="svg">☞ 在项目中优雅的使用svg</span>
+
+如果不知道 svg-sprite 是什么，可以参考大神张鑫旭的文章 [《未来必热：SVG Sprite技术介绍》](https://www.zhangxinxu.com/wordpress/2014/07/introduce-svg-sprite-technology/)<br>
+使用 svg-sprite 的好处 <br>
+* 页面代码清爽
+* 可使用 ID 随处重复调用
+* 每个 SVG 图标都可以更改大小颜色
+
+1.首先在 `/src/components` 创建 `SvgIcon/index.vue`：<br>
+
+```html
+  <template>
+    <svg
+      aria-hidden="true"
+      class="svg-icon"
+      :class="[`svg-icon-${name}`, size]"
+      :style="`fill:${fill}`"
+    >
+      <use :xlink:href="`#${name}`" />
+    </svg>
+  </template>
+```
+```javascript
+<script type="text/ecmascript-6">
+export default {
+  name: "SvgIcon",
+  props: {
+    name: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    size: {
+      type: String,
+      default: "md"
+    },
+    fill: {
+      type: String,
+      default: ""
+    }
+  },
+  data() {
+    return {};
+  }
+};
+</script>
+```
+
+```css
+<style lang="scss" scoped>
+.svg-icon {
+  fill: currentColor;
+  overflow: hidden;
+  &.xs {
+    width: 20px;
+    height: 20px;
+  }
+  &.sm {
+    width: 24px;
+    height: 24px;
+  }
+  &.md {
+    width: 32px;
+    height: 32px;
+  }
+  &.lg {
+    width: 42px;
+    height: 42px;
+  }
+}
+</style>
+```
+2.在src/下创建 `icons` 文件夹，以及在其下创建 `svg` 文件夹用于存放svg文件，创建 `index.js` 作为入口文件：
+
+```javascript
+const requireAll = requireContext => requireContext.keys().map(requireContext);
+const req = require.context("./svg", false, /\.svg$/);
+requireAll(req);
+```
+3.使用 `svg-sprite-loader` 对项目中使用的svg进行处理：<br>
+
+安装 `svg-sprite-loader` 插件
+```
+npm install svg-sprite-loader --save-dev
+```
+4.修改默认的webpack配置：
+```javascript
+const path = require("path");
+const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob
+const resolve = dir => path.join(__dirname, dir);
+
+module.exports = {
+  chainWebpack: config => {
+      const svgRule = config.module.rule("svg"); // 找到svg-loader
+      svgRule.uses.clear(); // 清除已有的loader, 如果不这样做会添加在此loader之后
+      svgRule.exclude.add(/node_modules/); // 正则匹配排除node_modules目录
+      svgRule // 添加svg新的loader处理
+        .test(/\.svg$/)
+        .use("svg-sprite-loader")
+        .loader("svg-sprite-loader")
+        .options({
+          symbolId: "[name]"
+        });
+      // 修改images loader 添加svg处理
+      const imagesRule = config.module.rule("images");
+      imagesRule.exclude.add(resolve("src/icons"));
+      config.module.rule("images").test(/\.(png|jpe?g|gif|svg)(\?.*)?$/);
+  }
+}
+```
+5.最后，在main.js 中引入import `assets/icons/index` 即可；
+```javascript
+  //main.js
+  import "assets/icons/index";
+```
+使用示例：
+```html
+  <svg-icon name="user"></svg-icon>
+```
+至于svg，个人喜欢用阿里妈妈开源图标库：[iconFont](https://www.iconfont.cn/collections)

@@ -13,7 +13,7 @@
             "
             @click="startrolling(item)"
           >
-            <img :src="item.picUrlDesc" v-if="item.picUrlDesc" />
+            <img :src="item.picUrlDesc" v-if="item.picUrlDesc">
             <template v-if="!item.level">
               <h4>立即抽奖</h4>
               <p>剩余1次</p>
@@ -25,11 +25,7 @@
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->
-    <m-confirm
-      ref="confirm"
-      @confirm="_confirmClear"
-      :text="alertPrizeName"
-    ></m-confirm>
+    <m-confirm ref="confirm" @confirm="_confirmClear" :text="alertPrizeName"></m-confirm>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -139,6 +135,7 @@ export default {
       }, this.speed);
       this.runs_now++; //已经跑步数加一
       this.amplification_index++; //当前的加一
+       this.$loading("抽奖中...")
       //获取总步数
       const count_num =
         this.minturns * this.max_number + this.finalindex - this.last_index;
@@ -153,6 +150,7 @@ export default {
       else if (this.runs_now >= count_num) {
         this.roll_flag = true;
         clearInterval(this.myInterval);
+         this.$clearLoading()
         this.showAlert();
       }
       //下降期间

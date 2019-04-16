@@ -18,3 +18,7 @@ export function removeClass(el, className) {
     );
   }
 }
+
+export function isInDocument(element) {
+  return document.body.contains(element);
+}

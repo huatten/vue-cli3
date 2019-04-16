@@ -66,6 +66,7 @@ export default {
   mounted() {
     this.getinfo();
     this.scrollInfo();
+    this.$toast("加载成功");
   },
   methods: {
     //获取奖品信息
@@ -108,6 +109,7 @@ export default {
             if (data.data.lotteryResult) {
               //中奖了
               this.rolling(); //启动滚盘
+               this.$toast('抽奖中...')
               this.finalindex = data.data.position;
               this.prizeName = data.data.prizeName;
             } else {
@@ -135,7 +137,6 @@ export default {
       }, this.speed);
       this.runs_now++; //已经跑步数加一
       this.amplification_index++; //当前的加一
-       this.$loading("抽奖中...")
       //获取总步数
       const count_num =
         this.minturns * this.max_number + this.finalindex - this.last_index;

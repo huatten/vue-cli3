@@ -2,7 +2,7 @@
   <svg
     aria-hidden="true"
     class="svg-icon"
-    :class="[`svg-icon-${name}`, size]"
+    :class="[`svg-icon-${name}`]"
     :style="`fill:${fill}`"
   >
     <use :xlink:href="`#${name}`" />
@@ -16,10 +16,6 @@ export default {
       type: String,
       required: true,
       default: ""
-    },
-    size: {
-      type: String,
-      default: "md"
     },
     fill: {
       type: String,
@@ -35,21 +31,7 @@ export default {
 .svg-icon {
   fill: currentColor;
   overflow: hidden;
-  &.xs {
-    width: 20px;
-    height: 20px;
-  }
-  &.sm {
-    width: 24px;
-    height: 24px;
-  }
-  &.md {
-    width: 32px;
-    height: 32px;
-  }
-  &.lg {
-    width: 42px;
-    height: 42px;
-  }
+  width: 100%;
+  height: 100%;
 }
 </style>

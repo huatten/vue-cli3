@@ -115,7 +115,6 @@ const request = option => {
         resolve(response.data);
       })
       .catch(error => {
-        alert(error);
         reject(error);
       });
   });

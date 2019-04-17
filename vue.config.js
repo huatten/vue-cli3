@@ -55,7 +55,6 @@ module.exports = {
       .set("components", resolve("src/components"))
       .set("router", resolve("src/router"))
       .set("store", resolve("src/store"))
-      .set("icons", resolve("src/icons"))
       .set("view", resolve("src/view"));
 
     //添加CDN参数到htmlWebpackPlugin配置中， 具体见public/index.html 修改

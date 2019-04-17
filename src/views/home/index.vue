@@ -66,7 +66,6 @@ export default {
   mounted() {
     this.getinfo();
     this.scrollInfo();
-    this.$toast("加载成功");
   },
   methods: {
     //获取奖品信息
@@ -79,6 +78,13 @@ export default {
           const data = res.data;
           if (data.code === 0) {
             this.prizeInfo = data.data.prizeInfo;
+            this.$toast({
+              text: "奖品信息请求成功",
+              iconClass: "success",
+              callback() {
+                 this.$loading("toast回调");
+              }
+            });
           }
         });
     },
@@ -109,7 +115,6 @@ export default {
             if (data.data.lotteryResult) {
               //中奖了
               this.rolling(); //启动滚盘
-               this.$toast('抽奖中...')
               this.finalindex = data.data.position;
               this.prizeName = data.data.prizeName;
             } else {
@@ -151,7 +156,7 @@ export default {
       else if (this.runs_now >= count_num) {
         this.roll_flag = true;
         clearInterval(this.myInterval);
-         this.$clearLoading()
+        this.$clearLoading();
         this.showAlert();
       }
       //下降期间

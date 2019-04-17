@@ -8,7 +8,7 @@
               <svg-icon :name="iconClass"></svg-icon>
             </span>
           </div>
-          <div class="toast-text">{{ msg }}</div>
+          <div class="toast-text">{{ text }}</div>
         </div>
       </transition>
     </div>
@@ -18,14 +18,37 @@
 export default {
   name: "MToast",
   data() {
-    return {
-      bShow: false,
-      time: 2500,
-      position: "middle",
-      iconClass: "",
-      msg: "我是toast",
-      callback(){}
-    };
+    return {};
+  },
+  props: {
+    bShow: {
+      // 是否显示此toast
+      type: Boolean,
+      default: false
+    },
+    text: {
+      // 提醒文字
+      type: String,
+      default: "我是toast"
+    },
+    position: {
+      // 提醒容器位置
+      type: String,
+      default: "middle"
+    },
+    iconClass: {
+      // 容器icon
+      type: String,
+      default: ""
+    },
+    time: {
+      // 显示时间
+      type: Number,
+      default: 2500
+    },
+    callback: {
+      type: Function
+    }
   },
   computed: {
     iconShow() {
@@ -79,8 +102,8 @@ export default {
     box-sizing: content-box;
     white-space: pre-wrap;
     &.toast-wrap__icon {
-      min-width: 160px;
-      max-width: 200px;
+      min-width: 170px;
+      max-width: 240px;
       padding: 32px 28px;
       .toast-text {
         padding-top: 12px;
@@ -88,11 +111,13 @@ export default {
     }
     &.top {
       top: 10%;
+      bottom: auto;
     }
     &.middle {
       transform: translate3d(-50%, -50%, 0);
     }
     &.bottom {
+      top: auto;
       bottom: 10%;
     }
   }
@@ -127,7 +152,7 @@ export default {
 }
 .translate-middle-enter,
 .translate-middle-leave-active {
-  transform: translate3d(80%);
+  transform: translate3d(0, 80%, 0);
   opacity: 0;
 }
 .translate-bottom-enter-active,

@@ -15,21 +15,13 @@
                 :data-month="item.mid"
                 :style="{ width: navItemWidth }"
                 :key="i"
-              >
-                {{ item.name }}
-              </div>
+              >{{ item.name }}</div>
             </div>
           </div>
           <div class="toogle__icon"></div>
         </div>
         <div class="calendar__main">
-          <div
-            class="main__head"
-            v-for="(item, index) in calendarWeek"
-            :key="index"
-          >
-            {{ item }}
-          </div>
+          <div class="main__head" v-for="(item, index) in calendarWeek" :key="index">{{ item }}</div>
           <div
             class="main__block"
             :class="{
@@ -45,9 +37,7 @@
             @click.prevent="handleDayClick(item)"
             v-for="item in CALENDAR"
             :key="item.type + item.day"
-          >
-            {{ item.day }}
-          </div>
+          >{{ item.day }}</div>
         </div>
       </div>
     </m-content>

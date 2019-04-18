@@ -13,7 +13,7 @@
             "
             @click="startrolling(item)"
           >
-            <img :src="item.picUrlDesc" v-if="item.picUrlDesc">
+            <img :src="item.picUrlDesc" v-if="item.picUrlDesc" />
             <template v-if="!item.level">
               <h4>立即抽奖</h4>
               <p>剩余1次</p>

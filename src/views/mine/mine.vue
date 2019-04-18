@@ -4,6 +4,16 @@
     <m-content>
       <div class="mine">
         <m-tabbar :options="options" @callback="callback"></m-tabbar>
+        <m-noticebar>我是默认的通知栏，什么都不传。</m-noticebar>
+        <m-noticebar leftIcon="safe" mode="close" @close="toast('点击了关闭')">
+          我是带有图标的的通知栏，可关闭。
+        </m-noticebar>
+        <m-noticebar leftIcon="safe" mode="close" time="5000">
+          我是带有图标的的通知栏，5s以后消失。
+        </m-noticebar>
+        <m-noticebar scrollable leftIcon="safe"  mode="link">
+         我是带有图标的的通知栏，文字太长了，我现在要滚动才行，同时可点击查看详情。
+        </m-noticebar>
       </div>
     </m-content>
     <m-footer></m-footer>
@@ -44,6 +54,9 @@ export default {
   methods: {
     callback(event, index, val, id) {
       console.log(val, id);
+    },
+    toast(msg){
+      this.$toast(msg)
     },
     getRes() {
       this.$http({

@@ -5,15 +5,32 @@
       <div class="mine">
         <m-tabbar :options="options" @callback="callback"></m-tabbar>
         <m-noticebar>我是默认的通知栏，什么都不传。</m-noticebar>
-        <m-noticebar leftIcon="safe" mode="close" @close="toast('点击了关闭')">
+
+        <m-noticebar leftIcon="notice" mode="close" @close="toast('点击了关闭')">
           我是带有图标的的通知栏，可关闭。
         </m-noticebar>
-        <m-noticebar leftIcon="safe" mode="close" time="5000">
+
+        <m-noticebar leftIcon="notice" mode="close" time="5000">
           我是带有图标的的通知栏，5s以后消失。
         </m-noticebar>
-        <m-noticebar scrollable leftIcon="safe"  mode="link">
+        
+        <m-noticebar leftIcon="notice" mode="link">
          我是带有图标的的通知栏，文字太长了，我现在要滚动才行，同时可点击查看详情。
         </m-noticebar>
+
+        <m-noticebar leftIcon="notice" mode="link" :scrollable="false" wrapable>
+         我是带有图标的的通知栏，文字太长了，需要隐藏了才行。
+        </m-noticebar>
+
+        <m-noticebar leftIcon="safe" mode="link" background="rgba(89,158,248,.08)" color="#2f86f6" speed="120">
+         我是带图标、可改变外观、可滚动、可关闭的的通知栏，1秒以后开始滚了，滚得还快！
+        </m-noticebar>
+        <m-noticebar background="rgba(89,158,248,.08)" color="#2f86f6" speed="200">
+           <svg-icon name="safe" slot="left"></svg-icon>
+         我是使用插槽自定义的带图标的通知栏，多来点文字滚滚
+          <svg-icon name="close" slot="right"></svg-icon>
+        </m-noticebar>
+
       </div>
     </m-content>
     <m-footer></m-footer>

@@ -6,14 +6,20 @@
       @click="_onClickBar"
       v-if="bShow"
     >
-      <div :class="['noticebar-left', !leftIcon && 'noticebar-left-empty']">
-        <span class="noticebar-left-icon" v-if="leftIcon">
-          <svg-icon :name="leftIcon" :fill="color"></svg-icon>
+      <div :class="['noticebar-left', (!leftIcon && !leftSolt) && 'noticebar-left-empty']">
+        <!-- left solt -->
+        <span class="noticebar-left-icon" v-if="leftSolt">
+          <slot name="left"></slot>
         </span>
+        <template v-else-if="leftIcon">
+          <span class="noticebar-left-icon">
+            <svg-icon :name="leftIcon" :fill="color"></svg-icon>
+          </span>
+        </template>
       </div>
-      <div :class="[multiRow && 'noticebar-multi-cont', 'noticebar-cont']" ref="wrapper">
+      <div class="noticebar-cont" ref="wrapper">
         <div
-          :class="[(overflow && scrollable) && 'noticebar-cont-scroll', (overflow && scrollable && !firstRound) && 'noticebar-cont-scroll-infinite']"
+          :class="[(!scrollable && wrapable) && 'noticebar-cont-ellipsis', (overflow && scrollable) && 'noticebar-cont-scroll', (overflow && scrollable && !firstRound) && 'noticebar-cont-scroll-infinite']"
           :style="contentStyle"
           @animationend="_onAnimationEnd"
           @webkitAnimationEnd="_onAnimationEnd"
@@ -23,7 +29,11 @@
         </div>
       </div>
       <div class="noticebar-right">
-        <template v-if="mode || closable">
+        <!-- right solt -->
+        <span class="noticebar-right-icon" v-if="rightSolt">
+          <slot name="right"></slot>
+        </span>
+        <template v-else-if="mode || closable">
           <span
             :class="['noticebar-right-icon', `right-icon-${rightIcon}`]"
             @click.stop="_onClickIcon"
@@ -64,15 +74,15 @@ export default {
       type: Boolean,
       default: false
     },
-    //内容超出多行展示
-    multiRow: {
+    //是否开启文本换行，只在禁用滚动时生效
+    wrapable: {
       type: Boolean,
       default: false
     },
-    //内容超出滚动展示 优先级低于 multiRow
+    //内容超出滚动展示
     scrollable: {
       type: Boolean,
-      default: false
+      default: true
     },
     //动画延迟时间 (s)
     delay: {
@@ -81,7 +91,7 @@ export default {
     },
     //动画滚动速度 (px/s)
     speed: {
-      type: Number,
+      type: [String, Number],
       default: 80
     },
     //左侧 icon
@@ -126,6 +136,12 @@ export default {
         animationDelay: (this.firstRound ? this.delay : 0) + "s",
         animationDuration: this.duration + "s"
       };
+    },
+    leftSolt() {
+      return !!this.$slots.left;
+    },
+    rightSolt() {
+      return !!this.$slots.right;
     }
   },
   updated() {
@@ -156,6 +172,7 @@ export default {
       if (!wrapper || !content) return;
       const wrapWidth = wrapper.clientWidth;
       const contentWidth = content.scrollWidth;
+
       if (this.scrollable && wrapWidth < contentWidth) {
         //可滚动
         this.overflow = true;
@@ -180,7 +197,7 @@ export default {
   min-height: 70px;
   position: relative;
   font-size: 28px;
-  padding-left: 30px;
+  padding: 0 30px;
   &.m-noticebar-circular {
     border-radius: 30px;
   }
@@ -205,7 +222,11 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     line-height: 70px;
-    position: relative;
+    .noticebar-cont-ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .noticebar-cont-scroll {
       display: inline-block; /*important*/
       animation: noticebar-animation linear both;
@@ -218,9 +239,10 @@ export default {
     display: flex;
     align-items: center;
     -webkit-box-align: center;
-    padding-right: 30px;
     .noticebar-right-icon {
       display: inline-block;
+      width: 24px;
+      height: 24px;
       &.right-icon-close {
         width: 24px;
         height: 24px;

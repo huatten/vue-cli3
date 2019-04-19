@@ -1,11 +1,11 @@
-import oToast from "./index.vue";
+import oNotify from "./index.vue";
 import { isInDocument } from "assets/js/utils/dom";
 export default {
-  install(Vue, options = {}) {
-    const ToastTpl = Vue.extend(oToast); //创建vue构造器
+  install(Vue, options) {
+    const NotifyTpl = Vue.extend(oNotify);
     const oCache = {};
-    Vue.prototype.$toast = Vue.loading = (options = {}) => {
-      const $vm = oCache[options.id] || (oCache[options.id] = new ToastTpl());
+    Vue.prototype.$notify = Vue.notify = (options = {}) => {
+      const $vm = oCache[options.id] || (oCache[options.id] = new NotifyTpl());
       if (!$vm.$el || !isInDocument($vm.$el)) {
         //防止连续多次重复创建
         document
@@ -14,11 +14,12 @@ export default {
       }
       typeof options === "string" && ($vm.text = options); // 传入props
       typeof options === "object" && Object.assign($vm, options); // 合并参数与实例
+      $vm.bShow = true;
       clearTimeout(this.time);
       clearTimeout(this.timer);
-      $vm.bShow = true;
       const hide = () => {
         return new Promise(resolve => {
+          if (!$vm.time) return;
           this.timer = setTimeout(() => {
             Object.keys(oCache).forEach(item => {
               oCache[item].bShow = false;

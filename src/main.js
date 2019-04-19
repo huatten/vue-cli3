@@ -8,11 +8,13 @@ import "assets/icons/index";
 import "assets/js/filter/index";
 import loading from "components/loading";
 import toast from "components/toast";
+import notify from "components/notify";
 import http from "assets/js/request/index";
 Vue.config.productionTip = false;
 Vue.prototype.$http = http;
 Vue.use(loading);
 Vue.use(toast);
+Vue.use(notify);
 if (/Android/gi.test(navigator.userAgent)) {
   window.addEventListener("resize", function() {
     if (

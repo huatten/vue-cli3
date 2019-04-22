@@ -1,6 +1,6 @@
 import oNotify from "./index.vue";
 import { isInDocument } from "assets/js/utils/dom";
-export default {
+const Notify = {
   install(Vue, options) {
     const NotifyTpl = Vue.extend(oNotify);
     const oCache = {};
@@ -38,3 +38,4 @@ export default {
     };
   }
 };
+export default Notify;

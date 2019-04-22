@@ -1,6 +1,6 @@
 import oLoading from "./index.vue";
 import { isInDocument } from "assets/js/utils/dom";
-export default {
+const Loading = {
   install(Vue, options) {
     const LoadTpl = Vue.extend(oLoading); // 创建vue构造器
     const oCache = {};
@@ -24,3 +24,4 @@ export default {
     };
   }
 };
+export default Loading;

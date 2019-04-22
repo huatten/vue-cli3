@@ -4,7 +4,6 @@ import QS from "qs";
 import Interface from "./interface";
 import config from "../config";
 import router from "router/index";
-
 const redirectToNeterror = router => {
   router.replace({
     path: "/neterror?redirectUrl=" + router.currentRoute.fullPath
@@ -115,6 +114,7 @@ const request = option => {
         resolve(response.data);
       })
       .catch(error => {
+        alert(error);
         reject(error);
       });
   });

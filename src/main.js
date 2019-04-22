@@ -1,20 +1,16 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router/index";
-import store from "./store/index";
-import "assets/scss/index";
-import "components/index";
-import "assets/icons/index";
-import "assets/js/filter/index";
-import loading from "components/loading";
-import toast from "components/toast";
-import notify from "components/notify";
-import http from "assets/js/request/index";
+import router from "router";
+import store from "store";
+import "assets/scss";
+import "assets/icons";
+import "components/layout";
+import "components/plugin";
+import "assets/js/filter";
+import http from "assets/js/request";
 Vue.config.productionTip = false;
 Vue.prototype.$http = http;
-Vue.use(loading);
-Vue.use(toast);
-Vue.use(notify);
+
 if (/Android/gi.test(navigator.userAgent)) {
   window.addEventListener("resize", function() {
     if (

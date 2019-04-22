@@ -1,10 +1,10 @@
 import oToast from "./index.vue";
 import { isInDocument } from "assets/js/utils/dom";
-export default {
+const Toast = {
   install(Vue, options = {}) {
     const ToastTpl = Vue.extend(oToast); //创建vue构造器
     const oCache = {};
-    Vue.prototype.$toast = Vue.loading = (options = {}) => {
+    Vue.prototype.$toast = Vue.toast = (options = {}) => {
       const $vm = oCache[options.id] || (oCache[options.id] = new ToastTpl());
       if (!$vm.$el || !isInDocument($vm.$el)) {
         //防止连续多次重复创建
@@ -37,3 +37,5 @@ export default {
     };
   }
 };
+
+export default Toast;

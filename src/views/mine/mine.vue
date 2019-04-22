@@ -44,7 +44,6 @@
             <svg-icon name="close" slot="right"></svg-icon>
           </m-noticebar>
         </div>
-
       </div>
     </m-content>
     <m-footer></m-footer>
@@ -52,7 +51,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { setTimeout } from 'timers';
 export default {
   name: "minePage",
   data() {
@@ -83,12 +81,12 @@ export default {
   },
   mounted() {
     this.getRes();
-    setTimeout(()=>{
-      this.bShow = true
-      setTimeout(()=>{
-         this.bShow = false
-      },3000)
-    },3000)
+    setTimeout(() => {
+      this.bShow = true;
+      setTimeout(() => {
+        this.bShow = false;
+      }, 3000);
+    }, 3000);
   },
   methods: {
     callback(event, index, val, id) {
@@ -96,10 +94,10 @@ export default {
         text: `当前选择${val}`,
         type: "failed",
         time: 2500,
-        callback:()=>{
-          this.$toast(`${val}通知消失了`)
+        callback: () => {
+          this.$toast(`${val}通知消失了`);
         }
-      })
+      });
     },
     toast(msg) {
       this.$toast(msg);
@@ -109,10 +107,13 @@ export default {
         url: "openAccountResult",
         method: "POST",
         callback: e => {
-          console.log(e);
+          this.$notify({
+            text: `${e.url} 报错`,
+            type: "failed"
+          });
         }
       }).then(res => {
-        console.log(res);
+        console.log(res)
       });
     }
   }

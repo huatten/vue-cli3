@@ -45,19 +45,23 @@
           </m-noticebar>
         </div>
       </div>
+      <m-popup v-model="bShows" :hasMask="true" position="left">
+        <div class="popup">popup-left</div>
+      </m-popup>
     </m-content>
     <m-footer></m-footer>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import { setTimeout } from 'timers';
 export default {
   name: "minePage",
   data() {
     return {
       hasBack: false,
       titleTxt: "我的",
-      bShow: false,
+      bShows: false,
       options: {
         container: "mine-tab",
         slideData: [
@@ -81,12 +85,12 @@ export default {
   },
   mounted() {
     this.getRes();
-    setTimeout(() => {
-      this.bShow = true;
-      setTimeout(() => {
-        this.bShow = false;
-      }, 3000);
-    }, 3000);
+    setTimeout(()=>{
+      this.bShows = true;
+      // setTimeout(()=>{
+      //   this.bShows = false;
+      // },2000)
+    },3200)
   },
   methods: {
     callback(event, index, val, id) {
@@ -113,7 +117,7 @@ export default {
           });
         }
       }).then(res => {
-        console.log(res)
+        console.log(res);
       });
     }
   }
@@ -124,5 +128,10 @@ export default {
   .demo {
     margin: 20px 0;
   }
+}
+.popup {
+  width: 375px;
+  height: 100%;
+  background: #fff;
 }
 </style>

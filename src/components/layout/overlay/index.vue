@@ -4,7 +4,6 @@
   </transition>
 </template>
 <script type="text/ecmascript-6">
-import { isInDocument } from "assets/js/utils/dom";
 export default {
   name: "MOverlay",
   props: {
@@ -13,11 +12,8 @@ export default {
       type: Boolean
     },
     opacity: {
-      default: 0.7,
+      default: 0.65,
       type: Number
-    },
-    appendTo: {
-      default: () => window.document.body //默认挂载到body
     }
   },
   computed: {
@@ -25,14 +21,9 @@ export default {
       return `background-color: rgba(0, 0, 0, ${this.opacity})`;
     }
   },
-  mounted() {
-    if (this.appendTo || !isInDocument(this.$el)) {
-      this.appendTo.appendChild(this.$el);
-    }
-  },
   methods: {
     tapMask() {
-      this.$emit("tap");
+      this.$emit("taps");
     }
   }
 };
@@ -44,7 +35,7 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 2018;
+  z-index: $overlay_index;
   -webkit-tap-highlight-color: transparent;
   backface-visibility: hidden;
 }

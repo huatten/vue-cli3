@@ -45,7 +45,7 @@
           </m-noticebar>
         </div>
       </div>
-      <m-popup v-model="bShows" :hasMask="true" position="left">
+      <m-popup v-model="bShows" position="left">
         <div class="popup">popup-left</div>
       </m-popup>
     </m-content>
@@ -54,7 +54,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { setTimeout } from 'timers';
 export default {
   name: "minePage",
   data() {
@@ -87,9 +86,6 @@ export default {
     this.getRes();
     setTimeout(()=>{
       this.bShows = true;
-      // setTimeout(()=>{
-      //   this.bShows = false;
-      // },2000)
     },3200)
   },
   methods: {

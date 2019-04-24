@@ -73,20 +73,17 @@ export default {
   },
   computed: {
     transitionName() {
-      return (
-        this.transition ||
-        (this.position ? `m-popup-slide-${this.position}` : "m-popup-fade")
-      );
+      return this.transition ||(this.position ? `m-popup-slide-${this.position}` : "m-popup-fade");
     }
   },
   mounted() {
     if (this.appendTo || !isInDocument(this.$el)) {
-      this.value && this.appendTo.appendChild(this.$el);
+      this.appendTo.appendChild(this.$el);
     }
   },
   activated() {
     if (this.appendTo || !isInDocument(this.$el)) {
-      this.value && this.appendTo.appendChild(this.$el);
+      this.appendTo.appendChild(this.$el);
     }
   },
   beforeDestroy() {

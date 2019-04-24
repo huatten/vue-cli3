@@ -23,7 +23,10 @@ export default {
       loadTxt: "加载中..."
     };
   },
-  methods: {}
+  beforeDestroy() {
+    console.log(1)
+    this.bShow = false;
+  }
 };
 </script>
 <style lang="scss" scoped>

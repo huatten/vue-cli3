@@ -17,9 +17,12 @@
           </span>
         </template>
       </div>
-      <div class="noticebar-cont" ref="wrapper">
+      <div
+        :class="['noticebar-cont',(!scrollable && wrapable) && 'noticebar-cont-wrapable']"
+        ref="wrapper"
+      >
         <div
-          :class="[(!scrollable && wrapable) && 'noticebar-cont-ellipsis', (overflow && scrollable) && 'noticebar-cont-scroll', (overflow && scrollable && !firstRound) && 'noticebar-cont-scroll-infinite']"
+          :class="[(!scrollable && !wrapable) && 'noticebar-cont-ellipsis', (overflow && scrollable) && 'noticebar-cont-scroll', (overflow && scrollable && !firstRound) && 'noticebar-cont-scroll-infinite']"
           :style="contentStyle"
           @animationend="_onAnimationEnd"
           @webkitAnimationEnd="_onAnimationEnd"
@@ -33,7 +36,7 @@
         <span class="noticebar-right-icon" v-if="rightSolt">
           <slot name="right"></slot>
         </span>
-        <template v-else-if="mode || closable">
+        <template v-else-if="mode">
           <span
             :class="['noticebar-right-icon', `right-icon-${rightIcon}`]"
             @click.stop="_onClickIcon"
@@ -103,11 +106,6 @@ export default {
     fill: {
       type: String,
       default: ""
-    },
-    //是否可关闭
-    closable: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -161,7 +159,7 @@ export default {
       this.$emit("click");
     },
     _onClickIcon() {
-      if (this.mode === "close" || this.closable) {
+      if (this.mode === "close") {
         this.bShow = false;
       }
       this.$emit("close");
@@ -222,6 +220,11 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     line-height: 70px;
+    &.noticebar-cont-wrapable {
+      padding: 24px 0;
+      line-height: 1.6;
+      white-space: normal;
+    }
     .noticebar-cont-ellipsis {
       white-space: nowrap;
       overflow: hidden;

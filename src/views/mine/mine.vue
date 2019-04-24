@@ -22,12 +22,7 @@
         </div>
 
         <div class="demo">
-          <m-noticebar
-            leftIcon="notice"
-            mode="link"
-            :scrollable="false"
-            wrapable
-          >我是带有图标的的通知栏，文字太长了，需要隐藏了才行。</m-noticebar>
+          <m-noticebar :scrollable="false" wrapable>我是带有图标的的通知栏，文字太长了文字太长了，需要开启文本换行展示。</m-noticebar>
         </div>
         <div class="demo">
           <m-noticebar
@@ -84,9 +79,9 @@ export default {
   },
   mounted() {
     this.getRes();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.bShows = true;
-    },3200)
+    }, 3200);
   },
   methods: {
     callback(event, index, val, id) {

@@ -78,12 +78,12 @@ export default {
   },
   mounted() {
     if (this.appendTo || !isInDocument(this.$el)) {
-      this.appendTo.appendChild(this.$el);
+      this.value && this.appendTo.appendChild(this.$el);
     }
   },
   activated() {
     if (this.appendTo || !isInDocument(this.$el)) {
-      this.appendTo.appendChild(this.$el);
+      this.value && this.appendTo.appendChild(this.$el);
     }
   },
   beforeDestroy() {

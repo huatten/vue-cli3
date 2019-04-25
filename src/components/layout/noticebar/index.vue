@@ -8,12 +8,12 @@
     >
       <div :class="['noticebar-left', (!leftIcon && !leftSolt) && 'noticebar-left-empty']">
         <!-- left solt -->
-        <span class="noticebar-left-icon" v-if="leftSolt">
+        <template v-if="leftSolt">
           <slot name="left"></slot>
-        </span>
+        </template>
         <template v-else-if="leftIcon">
-          <span class="noticebar-left-icon">
-            <svg-icon :name="leftIcon" :fill="color"></svg-icon>
+          <span :class="[iconType === 'svg' && 'noticebar-left-svgicon', iconType === 'font' && 'noticebar-left-iconfont']">
+            <m-icon :name="leftIcon" :type="iconType"></m-icon>
           </span>
         </template>
       </div>
@@ -22,7 +22,11 @@
         ref="wrapper"
       >
         <div
-          :class="[(!scrollable && !wrapable) && 'noticebar-cont-ellipsis', (overflow && scrollable) && 'noticebar-cont-scroll', (overflow && scrollable && !firstRound) && 'noticebar-cont-scroll-infinite']"
+          :class="[
+            (!scrollable && !wrapable) && 'noticebar-cont-ellipsis',
+            (overflow && scrollable) && 'noticebar-cont-scroll',
+            (overflow && scrollable && !firstRound) && 'noticebar-cont-scroll-infinite'
+          ]"
           :style="contentStyle"
           @animationend="_onAnimationEnd"
           @webkitAnimationEnd="_onAnimationEnd"
@@ -33,15 +37,19 @@
       </div>
       <div class="noticebar-right">
         <!-- right solt -->
-        <span class="noticebar-right-icon" v-if="rightSolt">
+        <template v-if="rightSolt">
           <slot name="right"></slot>
-        </span>
+        </template>
         <template v-else-if="mode">
           <span
-            :class="['noticebar-right-icon', `right-icon-${rightIcon}`]"
+            :class="[
+              iconType === 'svg' && 'noticebar-right-svgicon',
+              iconType === 'font' && 'noticebar-right-iconfont',
+              `right-icon-${rightIcon}`
+            ]"
             @click.stop="_onClickIcon"
           >
-            <svg-icon :name="rightIcon" :fill="fill"></svg-icon>
+            <m-icon :name="rightIcon" :type="iconType"></m-icon>
           </span>
         </template>
       </div>
@@ -102,10 +110,10 @@ export default {
       type: String,
       default: ""
     },
-    //svg-icon 填充色 暂定
-    fill: {
+    //icon 类型 svg/font
+    iconType: {
       type: String,
-      default: ""
+      default: "svg"
     }
   },
   data() {
@@ -207,10 +215,10 @@ export default {
     &.noticebar-left-empty {
       padding-right: 0;
     }
-    .noticebar-left-icon {
+    .noticebar-left-svgicon {
       display: inline-block;
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
     }
   }
   .noticebar-cont {
@@ -242,11 +250,13 @@ export default {
     display: flex;
     align-items: center;
     -webkit-box-align: center;
-    .noticebar-right-icon {
+    .noticebar-right-svgicon {
       display: inline-block;
       width: 24px;
       height: 24px;
+      padding-left: 5px;
       &.right-icon-close {
+        
         width: 24px;
         height: 24px;
       }

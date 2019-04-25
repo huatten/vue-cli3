@@ -10,6 +10,15 @@ Vue.component(MNoticebar);
 ```html
  <m-noticebar>我是默认的通知栏，什么props都不传。</m-noticebar>
 ```
+#### 通知栏（设置左侧icon和右侧icon）
+可通过传入 `iconType`来控制通知栏图标的类型，有 `svg` 和 `iconFont` 两种。
+```html
+ <m-noticebar leftIcon="notice">我左侧图标是svg类型的通知栏，iconType默认不传就是svg类型。</m-noticebar>
+```
+```html
+ <m-noticebar leftIcon="history" iconType="font">我左侧图标是iconFont类型的通知栏，iconType传值font。</m-noticebar>
+```
+
 #### 通知栏（设置外观主题样式）
 可通过传入 `background` 和 `color`来控制通知栏背景色和文字颜色。
 ```html
@@ -63,9 +72,9 @@ Vue.component(MNoticebar);
 `right` 右侧插槽，一般用于放置icon图标（link、close）等;<br>
 ```html
  <m-noticebar>
-    <svg-icon name="safe" slot="left"></svg-icon>
+    <span slot="left"><m-icon name="problem" type="font"></m-icon></span>
     我是使用插槽自定义的带图标的通知栏，多来点文字滚滚
-    <svg-icon name="close" slot="right"></svg-icon>
+    <span slot="right" class="right-svg"><m-icon name="close" type="svg"></m-icon></span>
 </m-noticebar>
 ```
 
@@ -74,6 +83,7 @@ Vue.component(MNoticebar);
 |------|------|------|------|------|
 | mode | 右侧提示类型 | `String` | - | `close`、`link` |
 | leftIcon | 左侧svg图标 | `String` | `notice` | 可添加svg传name |
+| iconType | 图标类型 | `String` | `svg` | 有svg类型 `svg` 和iconfont类型 `font` |
 | background | 背景色 | `String` | `#fffbe8` | - |
 | color | 文字色 | `String` | `#ff8200` | - |
 | circular | 圆角展示 | `String` | `#ff8200` | - |

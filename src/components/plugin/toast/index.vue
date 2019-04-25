@@ -5,7 +5,7 @@
         <div :class="['toast-wrap', position, iconShow ? 'toast-wrap__icon' : '']" v-show="bShow">
           <div class="toast-icon" v-show="iconShow">
             <span :class="iconClass">
-              <svg-icon :name="iconClass"></svg-icon>
+              <m-icon :name="iconClass"></m-icon>
             </span>
           </div>
           <div class="toast-text">{{ text }}</div>

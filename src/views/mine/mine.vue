@@ -10,7 +10,7 @@
           <m-noticebar>我是默认的通知栏，什么都不传。</m-noticebar>
         </div>
         <div class="demo">
-          <m-noticebar leftIcon="notice" mode="close" @close="toast('点击了关闭')">我是带有图标的的通知栏，可关闭。</m-noticebar>
+          <m-noticebar leftIcon="history" iconType="font" mode="close" @close="toast('点击了关闭')">我是带有图标的的通知栏，可关闭。</m-noticebar>
         </div>
 
         <div class="demo">
@@ -26,8 +26,9 @@
         </div>
         <div class="demo">
           <m-noticebar
-            leftIcon="safe"
-            mode="link"
+            leftIcon="problem"
+            iconType="font"
+            mode="close"
             background="rgba(89,158,248,.08)"
             color="#2f86f6"
             speed="120"
@@ -35,8 +36,9 @@
         </div>
         <div class="demo">
           <m-noticebar background="rgba(89,158,248,.08)" color="#2f86f6" speed="200">
-            <svg-icon name="safe" slot="left"></svg-icon>我是使用插槽自定义的带图标的通知栏，多来点文字滚滚
-            <svg-icon name="close" slot="right"></svg-icon>
+            <span slot="left"><m-icon name="problem" type="font"></m-icon></span>
+            我是使用插槽自定义的带图标的通知栏，多来点文字滚滚
+            <span slot="right" class="right-svg"><m-icon name="close" type="svg"></m-icon></span>
           </m-noticebar>
         </div>
       </div>
@@ -124,5 +126,10 @@ export default {
   width: 375px;
   height: 100%;
   background: #fff;
+}
+.right-svg{
+  display: inline-block;
+  width: 24px;
+  height: 24px;
 }
 </style>

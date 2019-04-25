@@ -14,7 +14,6 @@
 - [√ 布局方案以及px自动转换rem](#px2rem)
 - [√ 全局组件自动注册](#component)
 - [√ 路由拆分模块、懒加载以及自动引入](#router)
-- [√ 在项目中优雅的使用svg](#svg)
 
 ### <span id="install">☞ 安装@vue/cli并初始化</span>
 ```
@@ -510,36 +509,74 @@ module.exports = {
 [▲ 返回目录](#top)
 
 ### <span id="component">☞ 全局组件自动注册</span>
-在components目录下存放我们的公共全局组件(部分)
+在components目录下存放我们的公共视图组件(部分)和插件
 ```
  |-- components
-    |-- header              //公共头部组件
-        |-- index.vue
-    |-- footer              //公共底部导航组件
-        |-- index.vue
-    |-- content             //内容滚动组件
-        |-- index.vue
-    |-- marquee             //消息滚动组件
-        |-- index.vue
-    |-- confirm             //confirm弹窗组件
-        |-- index.vue
-    |-- tabbar              //可滑动导航菜单组件
-        |-- index.vue
-    |-- index.js            //用来扫描全局对象并自动注册
+    |-- layout                  //视图组件
+        |-- header              //公共头部组件
+            |-- index.vue
+            |-- README.md
+        |-- footer              //公共底部导航组件
+            |-- index.vue
+            |-- README.md
+        |-- content             //内容滚动组件
+            |-- index.vue
+            |-- README.md
+        |-- marquee             //消息滚动组件
+            |-- index.vue
+            |-- README.md
+        |-- confirm             //confirm弹窗组件
+            |-- index.vue
+            |-- README.md
+        |-- tabbar              //可滑动导航菜单组件
+            |-- index.vue
+            |-- README.md
+        |-- index.js            //用来扫描全局对象并自动注册
+    |-- plugin                  //公共插件
+        |-- loading             //加载提示插件
+            |-- index.vue
+            |-- index.js
+            |-- README.md
+        |-- toast              //轻提示插件
+            |-- index.vue
+            |-- index.js
+            |-- README.md
+        |-- notify             //消息通知组件
+            |-- index.vue
+            |-- index.js
+            |-- README.md
+        |-- index.js            //用来扫描全局对象并自动注册
  ```
 
- 在components中创建一个index.js入口文件，用来扫描全局对象并自动注册。
+ 在components/layout中创建一个index.js入口文件，用来扫描全局对象并自动注册全局视图组件。
 
  ```javascript
 import Vue from "vue";
-// 自动加载 components 目录下的 .js 结尾的文件
+// Register global components
 const requireComponent = require.context("./", true, /\w+\.(vue)$/);
 requireComponent.keys().forEach(component => {
   const componentConfig = requireComponent(component);
   const ctrl = componentConfig.default || componentConfig;
-  Vue.component(ctrl.name, ctrl);
+  ctrl && Vue.component(ctrl.name, ctrl);
 });
  ```
+ 在components/plugin中创建一个index.js入口文件，用来扫描全局对象并自动注册全局功能插件。
+```javascript
+// Register global plugin
+import Vue from "vue";
+const requirePlugin = require.context("./", true, /\w+\.(js)$/); //require.context(directory, useSubdirectories = false, regExp = /^\.\//);
+requirePlugin.keys().forEach(plugin => {
+  const pluginConfig = requirePlugin(plugin);
+  const ctrl = pluginConfig.default;
+  ctrl && Vue.use(ctrl);
+});
+ ```
+最后，在main.js 中引入import即可；
+```javascript
+  //main.js
+  import "components/layout";
+  import "components/plugin";
+```
 [▲ 返回目录](#top)
 
  ### <span id="router">☞ 路由拆分模块、懒加载以及自动引入</span>
@@ -622,124 +659,3 @@ export default new Router({
 
 ```
 [▲ 返回目录](#top)
-
-### <span id="svg">☞ 在项目中优雅的使用svg</span>
-
-如果不知道 svg-sprite 是什么，可以参考大神张鑫旭的文章 [《未来必热：SVG Sprite技术介绍》](https://www.zhangxinxu.com/wordpress/2014/07/introduce-svg-sprite-technology/)<br>
-使用 svg-sprite 的好处 <br>
-* 页面代码清爽
-* 可使用 ID 随处重复调用
-* 每个 SVG 图标都可以更改大小颜色
-
-1.首先在 `/src/components` 创建 `SvgIcon/index.vue`：<br>
-
-```html
-  <template>
-    <svg
-      aria-hidden="true"
-      class="svg-icon"
-      :class="[`svg-icon-${name}`, size]"
-      :style="`fill:${fill}`"
-    >
-      <use :xlink:href="`#${name}`" />
-    </svg>
-  </template>
-```
-```javascript
-<script type="text/ecmascript-6">
-export default {
-  name: "SvgIcon",
-  props: {
-    name: {
-      type: String,
-      required: true,
-      default: ""
-    },
-    size: {
-      type: String,
-      default: "md"
-    },
-    fill: {
-      type: String,
-      default: ""
-    }
-  },
-  data() {
-    return {};
-  }
-};
-</script>
-```
-
-```css
-<style lang="scss" scoped>
-.svg-icon {
-  fill: currentColor;
-  overflow: hidden;
-  &.xs {
-    width: 20px;
-    height: 20px;
-  }
-  &.sm {
-    width: 24px;
-    height: 24px;
-  }
-  &.md {
-    width: 32px;
-    height: 32px;
-  }
-  &.lg {
-    width: 42px;
-    height: 42px;
-  }
-}
-</style>
-```
-2.在src/下创建 `icons` 文件夹，以及在其下创建 `svg` 文件夹用于存放svg文件，创建 `index.js` 作为入口文件：
-
-```javascript
-const requireAll = requireContext => requireContext.keys().map(requireContext);
-const req = require.context("./svg", false, /\.svg$/);
-requireAll(req);
-```
-3.使用 `svg-sprite-loader` 对项目中使用的svg进行处理：<br>
-
-安装 `svg-sprite-loader` 插件
-```
-npm install svg-sprite-loader --save-dev
-```
-4.修改默认的webpack配置：
-```javascript
-const path = require("path");
-const glob = require("glob-all"); //If you need multiple paths use the npm package glob-all instead of glob
-const resolve = dir => path.join(__dirname, dir);
-
-module.exports = {
-  chainWebpack: config => {
-      const svgRule = config.module.rule("svg"); // 找到svg-loader
-      svgRule.uses.clear(); // 清除已有的loader, 如果不这样做会添加在此loader之后
-      svgRule.exclude.add(/node_modules/); // 正则匹配排除node_modules目录
-      svgRule // 添加svg新的loader处理
-        .test(/\.svg$/)
-        .use("svg-sprite-loader")
-        .loader("svg-sprite-loader")
-        .options({
-          symbolId: "[name]"
-        });
-      // 修改images loader 添加svg处理
-      const imagesRule = config.module.rule("images");
-      imagesRule.exclude.add(resolve("src/assets/icons"));
-      config.module.rule("images").test(/\.(png|jpe?g|gif|svg)(\?.*)?$/);
-  }
-}
-```
-5.最后，在main.js 中引入import `assets/icons/index` 即可；
-```javascript
-  //main.js
-  import "assets/icons/index";
-```
-使用示例：
-```html
-  <svg-icon name="user"></svg-icon>
-```
-至于svg，个人喜欢用阿里妈妈开源图标库：[iconFont](https://www.iconfont.cn/collections)

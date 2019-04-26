@@ -256,7 +256,6 @@ export default {
       height: 24px;
       padding-left: 5px;
       &.right-icon-close {
-        
         width: 24px;
         height: 24px;
       }

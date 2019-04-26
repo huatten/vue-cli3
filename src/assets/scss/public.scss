@@ -26,23 +26,50 @@ html,body{
   }
 }
 /*border set*/
-.m-hairline-top {
+[class*='m-hairline'] {
+  position: relative;
   &::before {
-    border-top-width: 2px !important;
+    content: "";
+    pointer-events: none;
+    box-sizing: border-box;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    transform: scale(0.5);
+    border: 0 solid $color_border;
   }
 }
-.m-hairline-right {
-  &::before {
-    border-right-width: 2px !important;
+.m-hairline{
+  &-top{
+    &:before {
+      border-top-width: 2px !important;
+    }
   }
-}
-.m-hairline-bottom {
-  &::before {
-    border-bottom-width: 2px !important;
+  &-right{
+    &:before {
+      border-right-width: 2px !important;
+    }
   }
-}
-.m-hairline-left {
-  &::before {
-    border-left-width: 2px !important;
+  &-bottom{
+    &:before {
+      border-bottom-width: 2px !important;
+    }
+  }
+  &-left{
+    &:before {
+      border-left-width: 2px !important;
+    }
+  }
+  &-top-bottom{
+    &:after {
+      border-width: 2px 0 !important;
+    }
+  }
+  &-surround{
+    &:before {
+      border-width: 2px !important;
+    }
   }
 }

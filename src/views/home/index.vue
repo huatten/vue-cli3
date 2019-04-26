@@ -26,6 +26,7 @@
     <m-footer></m-footer>
     <!--confirm-->
     <m-confirm ref="confirm" @confirm="_confirmClear" :text="alertPrizeName"></m-confirm>
+    <m-action-sheet v-model="value"></m-action-sheet>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -34,6 +35,9 @@ export default {
   name: "mHome",
   data() {
     return {
+      value: false,
+
+
       className: "indexWrap",
       hasBack: false,
       titleTxt: "首页",
@@ -66,6 +70,9 @@ export default {
   mounted() {
     this.getinfo();
     this.scrollInfo();
+    setTimeout(()=>{
+      this.value = true
+    },1000)
   },
   methods: {
     //获取奖品信息
@@ -80,10 +87,7 @@ export default {
             this.prizeInfo = data.data.prizeInfo;
             this.$toast({
               text: "奖品信息请求成功",
-              iconClass: "success",
-              callback() {
-                 this.$loading("toast回调");
-              }
+              iconClass: "success"
             });
           }
         });
@@ -156,7 +160,6 @@ export default {
       else if (this.runs_now >= count_num) {
         this.roll_flag = true;
         clearInterval(this.myInterval);
-        this.$clearLoading();
         this.showAlert();
       }
       //下降期间

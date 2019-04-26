@@ -133,19 +133,6 @@ export default {
     display: flex;
     user-select: none;
     overflow: hidden;
-    position: relative;
-    &::before {
-      content: "";
-      pointer-events: none;
-      box-sizing: border-box;
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      right: -50%;
-      bottom: -50%;
-      transform: scale(0.5);
-      border: 0 solid $color_border;
-    }
     div {
       position: relative;
       display: inline-flex;
@@ -158,20 +145,6 @@ export default {
       box-sizing: border-box;
       &.confirm {
         color: $color_orange;
-      }
-      &.cancel {
-        &::before {
-          content: "";
-          pointer-events: none;
-          box-sizing: border-box;
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          right: -50%;
-          bottom: -50%;
-          transform: scale(0.5);
-          border: 0 solid $color_border;
-        }
       }
     }
   }

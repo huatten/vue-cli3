@@ -1,14 +1,27 @@
 <template>
   <div class="m-action-sheet">
-    <m-popup v-model="actionSheetShow" position="bottom">
+    <m-popup
+      v-model="actionSheetShow"
+      position="bottom"
+      @show="_onShow"
+      @hide="_onHide"
+    >
       <div class="m-action-sheet-cont">
-        <div class="m-action-sheet-head m-hairline-bottom">标题</div>
+        <div class="m-action-sheet-head">{{ title }}</div>
         <div class="m-action-sheet-wrap">
-          <div class="m-action-sheet-item m-hairline-bottom">选项一</div>
-          <div class="m-action-sheet-item m-hairline-bottom">选项二</div>
-          <div class="m-action-sheet-item m-hairline-bottom">选项三</div>
-          <div class="m-action-sheet-item">选项四</div>
+          <div
+            :class="[
+              'm-action-sheet-item',
+              'm-hairline-top',
+              index === disabledIndex && 'disabled',
+              index === clickIndex && 'active'
+            ]"
+            v-for="(item, index) in actions"
+            :key="item.value"
+            @click="_onSelect(item, index)"
+          >{{ item.label }}</div>
         </div>
+        <div class="m-action-sheet-cancel" v-show="cancelText" @click="_onCancel">{{cancelText}}</div>
       </div>
     </m-popup>
   </div>
@@ -22,11 +35,40 @@ export default {
       type: Boolean,
       default: false
     },
+    title: {
+      type: String,
+      default: "标题"
+    },
     actions: {
       type: Array,
-      default(){
-        return []
+      default() {
+        return [
+          {
+            label: "选项1",
+            value: 0
+          },
+          {
+            label: "选项2",
+            value: 1
+          },
+          {
+            label: "选项3",
+            value: 2
+          }
+        ];
       }
+    },
+    defaultIndex: {
+      type: Number,
+      default: -1
+    },
+    disabledIndex: {
+      type: Number,
+      default: -1
+    },
+    cancelText: {
+      type: String,
+      default: "取消"
     },
     appendTo: {
       default: () => window.document.body //默认挂载到body
@@ -34,20 +76,45 @@ export default {
   },
   data() {
     return {
-      actionSheetShow: false
+      actionSheetShow: this.value,
+      clickIndex: -1
     };
   },
   watch: {
     value(newVal) {
-      newVal && (this.actionSheetShow = newVal);
+      this.actionSheetShow = newVal
     }
   },
   mounted() {
     if (this.appendTo || !isInDocument(this.$el)) {
       this.appendTo.appendChild(this.$el);
     }
+    this.clickIndex = this.defaultIndex;
   },
-  methods: {}
+  methods: {
+    _onShow() {
+      this.$emit("show");
+    },
+    _onHide() {
+      this.$emit("hide");
+      this._hideActionSheet();
+    },
+    _onSelect(item, index) {
+      if (index === this.disabledIndex) {
+        return;
+      }
+      this.clickIndex = index;
+      this.$emit("selected", item);
+      this._hideActionSheet();
+    },
+    _hideActionSheet() {
+      this.actionSheetShow = false;
+    },
+    _onCancel() {
+      this.$emit("cancel");
+      this._hideActionSheet();
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -68,8 +135,6 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  &-wrap {
-  }
   &-item {
     width: 100%;
     height: 98px;
@@ -77,6 +142,23 @@ export default {
     position: relative;
     justify-content: center;
     align-items: center;
+    &.active {
+      color: $color_orange;
+    }
+    &.disabled {
+      color: #c8c9cc;
+    }
+  }
+  &-cancel {
+    line-height: 108px;
+    position: relative;
+    &::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 18px;
+      background: #f9fafb;
+    }
   }
 }
 </style>

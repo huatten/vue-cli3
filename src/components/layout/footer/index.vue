@@ -35,7 +35,7 @@ export default {
     height: 90px;
     padding-top: 4px;
     padding-bottom: 8px;
-    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.08);
     a {
       flex: 1;
       i {

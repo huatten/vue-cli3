@@ -13,7 +13,7 @@
             "
             @click="startrolling(item)"
           >
-            <img :src="item.picUrlDesc" v-if="item.picUrlDesc" />
+            <img :src="item.picUrlDesc" v-if="item.picUrlDesc">
             <template v-if="!item.level">
               <h4>立即抽奖</h4>
               <p>剩余1次</p>
@@ -22,11 +22,19 @@
         </ul>
       </div>
       <m-marquee :scrollList="scrollList"></m-marquee>
+      <button @click="showAction">我是大按钮</button>
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->
     <m-confirm ref="confirm" @confirm="_confirmClear" :text="alertPrizeName"></m-confirm>
-    <m-action-sheet v-model="value"></m-action-sheet>
+    <m-action-sheet
+      v-model="value"
+      cancel-text="取消"
+      :disabled-index="1"
+      :default-index="0"
+      @selected="selected"
+    >
+    </m-action-sheet>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -36,7 +44,6 @@ export default {
   data() {
     return {
       value: false,
-
 
       className: "indexWrap",
       hasBack: false,
@@ -70,11 +77,14 @@ export default {
   mounted() {
     this.getinfo();
     this.scrollInfo();
-    setTimeout(()=>{
-      this.value = true
-    },1000)
   },
   methods: {
+    selected(i){
+      this.$notify(i.label);
+    },
+    showAction(){
+      this.value = true
+    },
     //获取奖品信息
     getinfo() {
       axios

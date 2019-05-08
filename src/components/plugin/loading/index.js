@@ -12,7 +12,6 @@ const Loading = {
           .querySelector(options.parent || "body")
           .appendChild($vm.$mount().$el);
       }
-      console.log(options);
       typeof options === "string" && ($vm.loadTxt = options); // 传入props
       $vm.bShow = true;
     };

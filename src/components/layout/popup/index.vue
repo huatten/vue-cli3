@@ -3,7 +3,11 @@
     :class="['m-popup', hasMask && 'm-popup-has-mask', `m-popup-${position}`]"
     v-show="isPopupShow"
   >
-    <m-overlay :showMask="hasMask && isPopupBoxShow" @taps="_onPopupMaskClick" class="m-popup-mask"></m-overlay>
+    <m-overlay
+      :showMask="hasMask && isPopupBoxShow"
+      @taps="_onPopupMaskClick"
+      class="m-popup-mask"
+    ></m-overlay>
     <transition
       :name="transitionName"
       @before-enter="_onPopupTransitionStart"
@@ -102,6 +106,7 @@ export default {
     _hidePopupBox() {
       this.isAnimation = true;
       this.isPopupBoxShow = false;
+      this.$emit("input", false)
     },
     _onPopupTransitionStart() {
       if (!this.isPopupBoxShow) {

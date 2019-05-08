@@ -22,7 +22,8 @@
         </ul>
       </div>
       <m-marquee :scrollList="scrollList"></m-marquee>
-      <button @click="showAction">我是大按钮</button>
+      <button @click="showAction">我是按钮</button>
+      <m-indicator></m-indicator>
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->
@@ -33,8 +34,7 @@
       :disabled-index="1"
       :default-index="0"
       @selected="selected"
-    >
-    </m-action-sheet>
+    ></m-action-sheet>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -79,11 +79,11 @@ export default {
     this.scrollInfo();
   },
   methods: {
-    selected(i){
+    selected(i) {
       this.$notify(i.label);
     },
-    showAction(){
-      this.value = true
+    showAction() {
+      this.value = true;
     },
     //获取奖品信息
     getinfo() {

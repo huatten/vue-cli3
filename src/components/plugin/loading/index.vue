@@ -3,11 +3,7 @@
     <div class="m-loading" @touchmove.prevent v-show="bShow">
       <div class="loading-wrap">
         <div class="loading-icon">
-          <span class="loading-spinner">
-            <svg viewBox="25 25 50 50" class="loading-spinner-circular">
-              <circle cx="50" cy="50" r="20" fill="none"></circle>
-            </svg>
-          </span>
+          <m-indicator size="lg"></m-indicator>
         </div>
         <div class="loading-text">{{ loadTxt }}</div>
       </div>
@@ -24,7 +20,6 @@ export default {
     };
   },
   beforeDestroy() {
-    console.log(1)
     this.bShow = false;
   }
 };
@@ -71,28 +66,6 @@ export default {
     position: relative;
     vertical-align: middle;
     margin: 16px 0;
-  }
-  .loading-spinner {
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: inline-block;
-    box-sizing: border-box;
-    -webkit-animation: rotate 0.8s linear infinite;
-    animation: rotate 0.8s linear infinite;
-    animation-duration: 2s;
-  }
-  .loading-spinner-circular {
-    width: 100%;
-    height: 100%;
-    circle {
-      stroke: currentColor;
-      stroke-width: 3;
-      stroke-linecap: round;
-      -webkit-animation: circular 1.5s ease-in-out infinite;
-      animation: circular 1.5s ease-in-out infinite;
-    }
   }
   .loading-text {
     padding-top: 8px;

@@ -3,8 +3,8 @@
     <m-popup
       v-model="actionSheetShow"
       position="bottom"
-      @show="_onShow"
-      @hide="_onHide"
+      @open="_onOpen"
+      @close="_onClose"
     >
       <div class="m-action-sheet-cont">
         <div class="m-action-sheet-head">{{ title }}</div>
@@ -92,11 +92,11 @@ export default {
     this.clickIndex = this.defaultIndex;
   },
   methods: {
-    _onShow() {
-      this.$emit("show");
+    _onOpen() {
+      this.$emit("open");
     },
-    _onHide() {
-      this.$emit("hide");
+    _onClose() {
+      this.$emit("close");
       this._hideActionSheet();
     },
     _onSelect(item, index) {
@@ -109,6 +109,7 @@ export default {
     },
     _hideActionSheet() {
       this.actionSheetShow = false;
+      this.$emit("input", false);
     },
     _onCancel() {
       this.$emit("cancel");

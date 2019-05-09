@@ -1,12 +1,17 @@
 <template>
-  <div class="m-indicator">
+  <div class="m-indicator" :class="type">
     <div class="m-indicator-cont">
       <div class="m-indicator-icon">
-        <div :class="[`m-indicator-${type}`,size]" :style="`color:${fill}`">
-          <svg :viewBox="`25 25 50 50`" :class="type">
-            <circle cx="50" cy="50" r="20" fill="none"></circle>
-          </svg>
-        </div>
+        <template v-if="type === 'roller'">
+          <m-roller :size="size" :fill="fill" :width="width"></m-roller>
+        </template>
+        <template v-if="type === 'carousel'">
+          <m-carousel :size="size" :fill="fill"></m-carousel>
+        </template>
+        <template v-if="type === 'spinner'">
+          <m-spinner :size="size"></m-spinner>
+        </template>
+
       </div>
       <div class="m-indicator-text" v-if="text" :style="`color:${color}`">{{text}}</div>
     </div>
@@ -14,6 +19,9 @@
 </template>
 
 <script type="text/ecmascript-6">
+import MRoller from "./roller";
+import MCarousel from "./carousel";
+import MSpinner from "./spinner";
 export default {
   name: "MIndicator",
   props: {
@@ -29,9 +37,13 @@ export default {
       type: String,
       default: "#fff"
     },
+    width: {
+      type: Number,
+      default: 3
+    },
     size: {
-      type: String,
-      default: "sm"
+      type: [Number, String],
+      default: 70
     },
     color: {
       type: String,
@@ -40,6 +52,11 @@ export default {
   },
   data() {
     return {};
+  },
+  components: {
+    MRoller,
+    MCarousel,
+    MSpinner
   }
 };
 </script>
@@ -61,38 +78,6 @@ export default {
   &-text {
     font-size: 28px;
     margin-left: 14px;
-  }
-  &-roller {
-    z-index: -1;
-    position: relative;
-    display: inline-block;
-    box-sizing: border-box;
-    -webkit-animation: rotate 0.8s linear infinite;
-    animation: rotate 0.8s linear infinite;
-    animation-duration: 2s;
-    &.sm {
-      width: 48px;
-      height: 48px;
-    }
-    &.md {
-      width: 64px;
-      height: 64px;
-    }
-    &.lg {
-      width: 72px;
-      height: 72px;
-    }
-    .roller {
-      width: 100%;
-      height: 100%;
-      circle {
-        stroke: currentColor;
-        stroke-width: 3;
-        stroke-linecap: round;
-        -webkit-animation: circular 1.5s ease-in-out infinite;
-        animation: circular 1.5s ease-in-out infinite;
-      }
-    }
   }
 }
 </style>

@@ -23,7 +23,10 @@
       </div>
       <m-marquee :scrollList="scrollList"></m-marquee>
       <button @click="showAction">我是按钮</button>
-      <m-indicator></m-indicator>
+      <m-indicator fill="#333"></m-indicator>
+      <m-indicator type="carousel" size="30" fill="#f90"></m-indicator>
+      <m-indicator type="spinner"></m-indicator>
+      
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->

@@ -13,6 +13,7 @@
     font-size: $size;
     color: $color;
 }
+//2倍图 3倍图
 @mixin bg-image($url) {
     background-image: url("./images/" + $url + "_2x.png");
     background-repeat: no-repeat;
@@ -22,4 +23,14 @@
         background-repeat: no-repeat;
         background-position: center 0;
     }
+}
+//清除浮动
+@mixin clearfix {
+  *zoom:1;
+  &:after{
+    clear: both;
+    content:"";
+    display: block;
+    height: 0;
+  }
 }

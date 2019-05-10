@@ -26,7 +26,30 @@
       <m-indicator fill="#333"></m-indicator>
       <m-indicator type="carousel" size="30" fill="#f90"></m-indicator>
       <m-indicator type="spinner"></m-indicator>
-      
+      <section>
+        <m-button>默认按钮</m-button>
+        <m-button type="primary">主要按钮</m-button>
+        <m-button type="info" loading loading-size="60">信息加载中...</m-button>
+        <m-button type="danger" round>危险按钮</m-button>
+        <m-button type="warning" icon-name="addto" icon-type="font" disabled>警告按钮</m-button>
+      </section>
+      <section>
+        <m-button>默认按钮</m-button>
+        <m-button type="primary" :inline="false">主要按钮</m-button>
+        <m-button type="info" :inline="false">信息按钮</m-button>
+        <m-button type="danger" :inline="false">危险按钮</m-button>
+        <m-button type="warning" :inline="false">警告按钮</m-button>
+      </section>
+      <section>
+        <m-button plain type="primary">plain&&主要按钮</m-button>
+        <m-button plain type="info">plain&&信息按钮</m-button>
+        <m-button plain type="danger">plain&&危险按钮</m-button>
+        <m-button plain type="warning">plain&&警告按钮</m-button>
+      </section>
+        <section>
+        <m-button type="primary" size="small">小按钮</m-button>
+        <m-button type="primary" size="large">大按钮</m-button>
+      </section>
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->

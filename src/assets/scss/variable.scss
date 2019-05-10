@@ -6,12 +6,60 @@ $color_text: #333;  //页面通用字体色
 $color_link:#5983b2;  //链接文字颜色
 $color_border: #e2e4ea;  //边框颜色
 $color_fff: #fff;
+$color_000: #000;
 $color_333: #333;
 $color_666: #666;
 $color_success: #07c160;
 $color_failed: #f44;
 $color_warn: #ff976a;
 
-/**/
+/*popup*/
 $overlay_index: 1000;
 $popup_index:2019;
+
+/*button defalut*/
+$button-default-height:78px;
+$button-default-line-height:76px;
+$button-default-font-size:28px;
+$button-default-border-radius:4px;
+
+/*button && type*/
+$button-default-color:#323233;
+$button-default-background-color:#fff;
+$button-default-border-color:#ebedf0;
+
+$button-primary-color:#fff;
+$button-primary-background-color:#07c160;
+$button-primary-border-color:#07c160;
+
+$button-info-color:#fff;
+$button-info-background-color:#1989fa;
+$button-info-border-color:#1989fa;
+
+$button-danger-color:#fff;
+$button-danger-background-color:#f44;
+$button-danger-border-color:#f44;
+
+$button-warning-color:#fff;
+$button-warning-background-color:#ff976a;
+$button-warning-border-color:#ff976a;
+
+/*button && plain*/
+$button-plain-background-color:#fff;
+
+/*button && round*/
+$button-round-border-radius: 10em;
+
+/*button && disabled*/
+$button-disabled-opacity: 0.3;
+
+/*button && size*/
+$button-small-min-width: 90px;
+$button-small-height: 60px;
+$button-small-line-height: 58px;
+$button-small-font-size: 26px;
+
+$button-large-height: 100px;
+$button-large-line-height: 98px;
+$button-large-font-size: 34px;
+

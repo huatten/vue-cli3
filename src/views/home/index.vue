@@ -29,16 +29,17 @@
       <section>
         <m-button>默认按钮</m-button>
         <m-button type="primary">主要按钮</m-button>
+        <m-button type="info" loading loading-size="20" loading-type="carousel">信息加载中...</m-button>
         <m-button type="info" loading loading-size="60">信息加载中...</m-button>
         <m-button type="danger" round>危险按钮</m-button>
         <m-button type="warning" icon-name="addto" icon-type="font" disabled>警告按钮</m-button>
       </section>
       <section>
         <m-button>默认按钮</m-button>
-        <m-button type="primary" :inline="false">主要按钮</m-button>
-        <m-button type="info" :inline="false">信息按钮</m-button>
-        <m-button type="danger" :inline="false">危险按钮</m-button>
-        <m-button type="warning" :inline="false">警告按钮</m-button>
+        <m-button type="primary" :inline="false" speed="10" native-type="reset">主要按钮</m-button>
+        <m-button type="info" :inline="false" speed="20">信息按钮</m-button>
+        <m-button type="danger" :inline="false" speed="30">危险按钮</m-button>
+        <m-button type="warning" :inline="false" speed="40">警告按钮</m-button>
       </section>
       <section>
         <m-button plain type="primary">plain&&主要按钮</m-button>

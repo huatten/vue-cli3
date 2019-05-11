@@ -45,4 +45,22 @@ Vue.component(MButton);
 #### 按钮尺寸
 #### 按钮点击动效
 
-待补充
+### Props 
+| 属性 | 说明 | 类型 | 默认值 | 备注 |
+|------|------|------|------|------|
+| type | 样式类型 | `String` | `default` | 可选值：`primary` 、`info` 、`danger` 、`warning` |
+| plain | 是否为朴素按钮 | `Boolean` | `false` | 朴素按钮表现为文字颜色是按钮颜色，背景色为白色 |
+| inline | 是否为行内按钮 | `Boolean` | `true` | - |
+| size | 尺寸 | `String` | `normal` | 可选值为 `large`、 `small` |
+| round | 是否为圆角按钮 | `Boolean` | `false` | - |
+| invalid | 未激活按钮 | `Boolean` | `false` | 适用场景为：表单校验无效，按钮无法点击 |
+| disabled | 是否禁用按钮 | `Boolean` | `false` | 适用场景为：无权限或不存在等，按钮无法点击 |
+| native-type | 原生type属性 | `String` | `button` | 可选值：`submit` 、`button` 、`reset` [参照w3c说明](http://www.w3school.com.cn/tags/att_button_type.asp) |
+| icon-name | 按钮icon名称 | `String` | - | 不传值则icon不显示，可选值请参考组件 `MIcon` 组件 |
+| icon-type | 按钮icon类型 | `String` | `font` | 默认类型值为 `font`(字体图标），`svg`为 svg图标 |
+| loading | 是否显示加载状态 | `Boolean` | `false` | - |
+| loading-type | 加载图标类型 | `String` | `roller` | 可选值请参考组件 `MIndicator` 组件，可选 `carousel`、`spinner` |
+| loading-size | 加载图标大小 | `Number` | `70` | 可选值请参考组件 `MIndicator` 组件 |
+| ripple | 是否开启波纹点击效果 | `Boolean` | `false` | - |
+| speed | 波纹展开速度 | `Number` | `11` | - |
+| opacity | 波纹透明度 | `Boolean` | `0.3` | - |

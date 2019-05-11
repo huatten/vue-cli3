@@ -3,10 +3,12 @@
     class="m-button"
     :class="[
       `m-button-${type}`, 
-      (invalid || disabled) ? 'm-button-disabled' : 'active',
-      inline ? 'm-button-inline' : 'm-button-block',
+      (invalid || disabled) && 'm-button-disabled',
+      !inline && 'm-button-block',
       plain && 'm-button-plain',
       round && 'm-button-round',
+      loading && 'm-button-loading',
+      ripple && 'm-button-ripple',
       `m-button-${size}`
     ]"
     :type="nativeType"
@@ -36,6 +38,7 @@
 
 <script type="text/ecmascript-6">
 import { getStyle, getStyleNumber } from "assets/js/utils/dom";
+const DEFAULT_COLOR = "#000";
 export default {
   name: "MButton",
   props: {
@@ -77,7 +80,7 @@ export default {
     },
     iconType: {
       type: String,
-      default: "svg" //svg、font
+      default: "font" //svg、font
     },
     loading: {
       type: Boolean,
@@ -93,7 +96,7 @@ export default {
     },
     ripple: {
       type: Boolean,
-      default: true
+      default: false
     },
     speed: {
       type: [Number, String],
@@ -124,11 +127,11 @@ export default {
       const oBtn = el.parentElement;
       // 透明度的速度
       const w = getStyleNumber(oBtn, "width");
-      this.speedOpacity = (this.speed / w) * this.opacity;
-      this.color = getStyle(el.parentElement, "color");
+      this.speedOpacity = (this.speed * 1 / w) * this.opacity;
+      this.color = this.plain ? DEFAULT_COLOR : getStyle(el.parentElement, "color");
 
       // 透明度的速度
-      this.speedOpacity = (this.speed / w) * this.opacity;
+      this.speedOpacity = (this.speed * 1 / w) * this.opacity;
       // canvas 宽和高
       el.width = w;
       el.height = getStyleNumber(oBtn, "height");
@@ -167,7 +170,7 @@ export default {
       this.context.fillStyle = this.color;
       this.context.fill();
       // 定义下次的绘制半径和透明度
-      this.radius += this.speed;
+      this.radius += this.speed * 1;
       this.el.style.opacity -= this.speedOpacity;
       // 通过判断半径小于元素宽度或者还有透明度，不断绘制圆形
       if (this.radius < this.el.width || this.el.style.opacity > 0) {
@@ -247,6 +250,11 @@ export default {
       justify-content: center;
       align-items: center;
       margin-left: 10px;
+    }
+  }
+  &-ripple{
+    &::before {
+      display: none;
     }
   }
   &-disabled {

@@ -8,7 +8,7 @@
       @taps="_onPopupMaskClick"
       class="m-popup-mask"
     ></m-overlay>
-    <transition
+    <m-transition
       :name="transitionName"
       @before-enter="_onPopupTransitionStart"
       @before-leave="_onPopupTransitionStart"
@@ -18,7 +18,7 @@
       <div :class="['m-popup-box', transitionName]" v-show="isPopupBoxShow">
         <slot></slot>
       </div>
-    </transition>
+    </m-transition>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     transitionName() {
-      return this.transition ||(this.position ? `m-popup-slide-${this.position}` : "m-popup-fade");
+      return this.transition ||(this.position ? `m-slide-${this.position}` : "m-fade");
     }
   },
   mounted() {
@@ -181,63 +181,5 @@ export default {
   max-width: 100%;
   max-height: 100%;
   overflow: auto;
-}
-.m-popup-fade {
-  &-enter,
-  &-leave-to {
-    opacity: 0.01;
-  }
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 250ms;
-  }
-}
-.m-popup-slide-top {
-  &-enter,
-  &-leave-to {
-    transform: translate3d(0, -100%, 0);
-  }
-  &-enter-active {
-    transition: 0.3s ease-out;
-  }
-  &-leave-active {
-    transition: 0.3s ease-out;
-  }
-}
-.m-popup-slide-bottom {
-  &-enter,
-  &-leave-to {
-    transform: translate3d(0, 100%, 0);
-  }
-  &-enter-active {
-    transition: 0.3s ease-out;
-  }
-  &-leave-active {
-    transition: 0.3s ease-out;
-  }
-}
-.m-popup-slide-left {
-  &-enter,
-  &-leave-to {
-    transform: translate3d(-100%, 0, 0);
-  }
-  &-enter-active {
-    transition: 0.3s ease-out;
-  }
-  &-leave-active {
-    transition: 0.3s ease-out;
-  }
-}
-.m-popup-slide-right {
-  &-enter,
-  &-leave-to {
-    transform: translate3d(100%, 0, 0);
-  }
-  &-enter-active {
-    transition: 0.3s ease-out;
-  }
-  &-leave-active {
-    transition: 0.3s ease-out;
-  }
 }
 </style>

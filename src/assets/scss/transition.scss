@@ -39,8 +39,8 @@
     transition: all 0.25s linear;
   }
 }
-/*slide-up*/
-.m-slide-up {
+/*slide-bottom*/
+.m-slide-bottom {
   &-enter,
   &-leave-to {
     transform: translate3d(0, 100%, 0);
@@ -52,8 +52,8 @@
     transition: transform 0.25s ease-out;
   }
 }
-/*slide-down*/
-.m-slide-down {
+/*slide-top*/
+.m-slide-top {
   &-enter,
   &-leave-to {
     transform: translate3d(0, -100%, 0);

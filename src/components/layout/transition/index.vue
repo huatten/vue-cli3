@@ -1,18 +1,13 @@
-<template>
-  <transition :name="name">
-    <slot></slot>
-  </transition>
-</template>
-
 <script type="text/ecmascript-6">
+/**
+ * https://www.jianshu.com/p/0645bc9033a5
+ */
 export default {
   name: "MTransition",
-  props: {
-    name: {
-      type: String,
-      default: ""
-    }
-  }
+  functional: true,
+  render(h, context) {
+    return h('transition', context.data, context.children)
+  },
 };
 </script>
 
@@ -58,8 +53,8 @@ export default {
     transition: all 0.25s linear;
   }
 }
-/*slide-up*/
-.m-slide-up {
+/*slide-bottom*/
+.m-slide-bottom {
   &-enter,
   &-leave-to {
     transform: translate3d(0, 100%, 0);
@@ -71,8 +66,8 @@ export default {
     transition: transform 0.25s ease-out;
   }
 }
-/*slide-down*/
-.m-slide-down {
+/*slide-top*/
+.m-slide-top {
   &-enter,
   &-leave-to {
     transform: translate3d(0, -100%, 0);

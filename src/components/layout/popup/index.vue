@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['m-popup', hasMask && 'm-popup-has-mask', `m-popup-${position}`]"
+    :class="['m-popup', hasMask && 'm-popup-has-mask', position]"
     v-show="isPopupShow"
   >
     <m-overlay

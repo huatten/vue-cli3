@@ -1,7 +1,13 @@
 <template>
-  <transition name="fade">
-    <div class="m-overlay" v-show="showMask" :style="backgroundColor" @touchmove.stop.prevent @click="tapMask"></div>
-  </transition>
+  <m-transition name="m-fade">
+    <div
+      class="m-overlay"
+      v-show="showMask"
+      :style="backgroundColor"
+      @touchmove.stop.prevent
+      @click="tapMask"
+    ></div>
+  </m-transition>
 </template>
 <script type="text/ecmascript-6">
 export default {

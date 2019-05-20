@@ -12,6 +12,7 @@
   <i
     v-else-if="type === 'font'"
     class="m-icon m-font-icon"
+    :style="`color:${fill}`"
     :class="[`m-icon-${name}`, name]"
     @click="$emit('click', $event)"
   ></i>

@@ -43,6 +43,13 @@
         <transition-group name="list-move" tag="div">
           <span v-for="item in items" :key="item" class="list-move-item">{{item}}</span>
         </transition-group>
+        <!--
+          列表过渡需要使用transition-group，并且需要绑定唯一key
+          v-move特性：
+          1.Vue使用了一个FLIP的动画队列（使用 FLIP 过渡的元素不能设置为 display: inline），使用transform将元素从原来的位置平滑过渡到新位置
+          2.v-movev-move 是在过渡开始时候判断元素的位置是否发生改变，并且key是识别每个元素的关键，在v-for中用index来绑定key就虽然可行，但是不会触发v-move效果；
+          3.一定要在过渡开始的时候就让元素的位置发生改变：v-enter或者v-leave或者active阶段，而v-leave-to哈v-enter-to不行。
+        -->
       </div>
     </m-content>
   </div>
@@ -100,10 +107,10 @@ export default {
       return Math.floor(Math.random() * this.items.length);
     },
     add() {
-      this.items.splice(this._randomIndex(), 0, this.nextNum++)
+      this.items.splice(this._randomIndex(), 0, this.nextNum++);
     },
     remove() {
-      this.items.splice(this._randomIndex(), 1)
+      this.items.splice(this._randomIndex(), 1);
     }
   }
 };
@@ -138,26 +145,26 @@ h1 {
   margin: 10px;
 }
 .list-enter-active,
-.list-leave-active{
+.list-leave-active {
   transition: all 0.8s linear;
 }
 .list-enter,
-.list-leave-to{
+.list-leave-to {
   transform: translateY(30px);
   opacity: 0;
 }
 
-.list-move-item{
+.list-move-item {
   display: inline-block; //使用 FLIP 过渡的元素不能设置为 display: inline
   margin: 10px;
   transition: all 1s;
 }
 .list-move-enter,
-.list-move-leave-to{
+.list-move-leave-to {
   transform: translateY(30px);
   opacity: 0;
 }
-.list-move-leave-active{
+.list-move-leave-active {
   position: absolute;
 }
 </style>

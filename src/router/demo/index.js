@@ -18,5 +18,22 @@ export default [
       docTitle: "动画组件",
       keepAlive: false
     }
+  },
+  {
+    path: "/cell",
+    name: "cell",
+    component: resolve => {
+      require.ensure(
+        ["@/views/demo/cell.vue"],
+        () => {
+          resolve(require("@/views/demo/cell.vue"));
+        },
+        "cell"
+      );
+    },
+    meta: {
+      docTitle: "单元格",
+      keepAlive: false
+    }
   }
 ];

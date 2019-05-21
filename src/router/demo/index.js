@@ -32,7 +32,24 @@ export default [
       );
     },
     meta: {
-      docTitle: "单元格",
+      docTitle: "单元格组件",
+      keepAlive: false
+    }
+  },
+  {
+    path: "/switch",
+    name: "switch",
+    component: resolve => {
+      require.ensure(
+        ["@/views/demo/switch.vue"],
+        () => {
+          resolve(require("@/views/demo/switch.vue"));
+        },
+        "switch"
+      );
+    },
+    meta: {
+      docTitle: "开关组件",
       keepAlive: false
     }
   }

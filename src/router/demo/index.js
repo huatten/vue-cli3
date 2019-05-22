@@ -52,5 +52,22 @@ export default [
       docTitle: "开关组件",
       keepAlive: false
     }
+  },
+  {
+    path: "/step",
+    name: "step",
+    component: resolve => {
+      require.ensure(
+        ["@/views/demo/step.vue"],
+        () => {
+          resolve(require("@/views/demo/step.vue"));
+        },
+        "step"
+      );
+    },
+    meta: {
+      docTitle: "步骤条组件",
+      keepAlive: false
+    }
   }
 ];

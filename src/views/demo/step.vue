@@ -4,12 +4,22 @@
     <m-content>
       <div class="m-field">
         <p>基础</p>
-        <m-step :steps="steps"></m-step>
+        <m-step :steps="steps" :current="1"></m-step>
       </div>
       <div class="m-field">
-        <p>自定义</p>
-        <m-step :steps="steps">
-          <div slot="icon"><m-icon name="history" type="font"></m-icon></div>
+        <p>进度为小数</p>
+        <m-step :steps="steps" :current="1.5"></m-step>
+      </div>
+      <div class="m-field">
+        <p>进度动画</p>
+        <m-step :steps="steps" :current="current" :transition="true"></m-step>
+      </div>
+      <div class="m-field">
+        <p>自定义图标</p>
+        <m-step :steps="steps2" :current="2">
+          <div slot="icon">
+            <m-icon name="history" type="font"></m-icon>
+          </div>
         </m-step>
       </div>
     </m-content>
@@ -24,12 +34,24 @@ export default {
       titleTxt: "step步骤条",
       isOpen: true,
       isClose: false,
-      steps:[{name: '第一步'},{name: '第二步'},{name: '第三步'}]
+      steps: [{ name: "第一步" }, { name: "第二步" }, { name: "第三步" }],
+      steps2: [
+        { name: "注册" },
+        { name: "开户" },
+        { name: "验证" },
+        { name: "完成" }
+      ],
+      current: 0
     };
   },
-  methods:{
-    handel(e){
-      console.log(e)
+  created() {
+    setTimeout(() => {
+      this.current = 2;
+    }, 2000);
+  },
+  methods: {
+    handel(e) {
+      console.log(e);
     }
   }
 };
@@ -40,7 +62,7 @@ export default {
   padding: 30px;
   background: #fff;
   margin: 30px;
-  p{
+  p {
     margin-bottom: 20px;
   }
 }

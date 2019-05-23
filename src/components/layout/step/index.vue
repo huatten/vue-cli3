@@ -25,6 +25,7 @@
         </div>
         <div class="text-wrap">
           <div class="name">{{step.name}}</div>
+          <div class="desc" v-if="step.desc">{{step.desc}}</div>
         </div>
       </div>
       <div class="m-step-bar" :class="[`${direction}-bar`]" :key="`bar-${index}`">
@@ -179,7 +180,7 @@ export default {
     align-items: center;
     padding: 40px 70px 70px;
     .m-step-wrap {
-      margin: 0 5px;
+      margin: 0 3px;
       justify-content: center;
       align-items: center;
       flex-direction: column;
@@ -192,6 +193,42 @@ export default {
     .m-step-bar {
       flex: 1;
       height: 1px;
+      .bar-line {
+        width: 100%;
+        height: 100%;
+        background-color: #ff8200;
+      }
+    }
+  }
+  &.vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 40px 10px;
+    .m-step-wrap {
+      width: 100%;
+      margin: 3px 0;
+      align-items: stretch;
+    }
+    .text-wrap {
+      left: 32px;
+      padding-left: 40px;
+      .name,
+      .desc {
+        text-align: left;
+        line-height: 1.2;
+        white-space: normal;
+      }
+      .desc {
+        font-size: 24px;
+        margin-top: 18px;
+        color: #ccc;
+      }
+    }
+    .vertical-bar {
+      flex: 1;
+      left: 18px;
+      width: 1px;
+      transform: translateX(-50%);
       .bar-line {
         width: 100%;
         height: 100%;
@@ -250,6 +287,9 @@ export default {
     overflow: hidden;
     &:last-of-type.horizontal-bar {
       display: none;
+    }
+    &:last-of-type.vertical-bar {
+      visibility: hidden;;
     }
     .bar-line {
       z-index: 10;

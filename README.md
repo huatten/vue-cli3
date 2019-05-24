@@ -422,7 +422,7 @@ npm run analyz
  ```scss
  /*颜色定义规范*/
   $color_background:#fafafa;   //页面背景色
-  $color_orange: #ff8200 ;     //页面主题色
+  $color_primary: #ff8200 ;     //页面主题色
   $color_text: #333;  //页面通用字体色
   $color_link:#5983b2;  //链接文字颜色
   $color_border: #e2e4ea;  //边框颜色

@@ -144,7 +144,7 @@ export default {
     justify-content: center;
     align-items: center;
     &.active {
-      color: $color_orange;
+      color: $color_primary;
     }
     &.disabled {
       color: #c8c9cc;

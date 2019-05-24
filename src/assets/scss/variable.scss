@@ -1,7 +1,7 @@
 
 /*颜色定义规范*/
+$color_primary:#ff8200;      //主题色
 $color_background:#fafafa;   //页面背景色
-$color_orange: #ff8200 ;     //页面主题色
 $color_text: #333;  //页面通用字体色
 $color_link:#5983b2;  //链接文字颜色
 $color_border: #e2e4ea;  //边框颜色
@@ -79,3 +79,12 @@ $cell-disabled-color: #c5cad5;
 $switch-background-color:#e2e4ea;
 $switch-node-background-color:#fff;
 $switch-active-background-color:#ff8200;
+
+/*step*/
+$step-color: #858b9c;
+$step-current-color: #ff8200;
+$step-current-background-color: #ff8200;
+$step-arrived-color: #333;
+$step-arrived-background-color: #ccc;
+$step-bar-background-color: #ccc;
+$step-desc-color: #ccc;

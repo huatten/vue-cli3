@@ -144,7 +144,7 @@ export default {
       color: $color_333;
       box-sizing: border-box;
       &.confirm {
-        color: $color_orange;
+        color: $color_primary;
       }
     }
   }

@@ -196,7 +196,7 @@ export default {
       .bar-line {
         width: 100%;
         height: 100%;
-        background-color: #ff8200;
+        background-color: $color_primary;
       }
     }
   }
@@ -221,7 +221,7 @@ export default {
       .desc {
         font-size: 24px;
         margin-top: 18px;
-        color: #ccc;
+        color: $step-desc-color;
       }
     }
     .vertical-bar {
@@ -232,21 +232,23 @@ export default {
       .bar-line {
         width: 100%;
         height: 100%;
-        background-color: #ff8200;
+        background-color: $step-current-background-color;
       }
     }
   }
   &-wrap {
     display: flex;
     position: relative;
+    color: $step-color;
     &.current {
-      color: #ff8200;
+      color: $step-current-color;
     }
     &.arrived {
+      color: $step-arrived-color;
       .icon-wrap {
-        color: #ff8200;
+        color: $step-current-color;
         .step-node {
-          background-color: #ff8200;
+          background-color: $step-current-background-color;
         }
       }
     }
@@ -269,7 +271,7 @@ export default {
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background-color: #ccc;
+        background-color: $step-arrived-background-color;
       }
     }
     .text-wrap {
@@ -283,7 +285,7 @@ export default {
   }
   &-bar {
     position: relative;
-    background: #ccc;
+    background-color: $step-bar-background-color;
     overflow: hidden;
     &:last-of-type.horizontal-bar {
       display: none;

@@ -1,7 +1,7 @@
 <template>
   <div
     class="m-switch"
-    :class="[open && 'open', disabled && 'disabled']"
+    :class="[value && 'open', disabled && 'disabled']"
     :style="`font-size:${size}px`"
     @click="_change($event)"
   >
@@ -38,20 +38,10 @@ export default {
       default: false
     }
   },
-  data() {
-    return {
-      open: this.value
-    };
-  },
-  watch: {
-    open(val) {
-      this.$emit("input", val);
-    }
-  },
   methods: {
     _change(e) {
       if (this.disabled || this.loading) return;
-      this.open = !this.open;
+      this.$emit("input", !this.value);
       this.$emit("change", e);
     }
   }

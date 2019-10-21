@@ -6,6 +6,6 @@ export default {
     //验证是否登录
     isLogin: "/sso/isLogins",
     //验证是否开户
-    openAccountResult: "/h5/account/openAccountResult"
+    openAccountResult: "/h5/index/indexSyncData"
   }
 };

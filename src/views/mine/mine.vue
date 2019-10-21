@@ -81,9 +81,7 @@ export default {
   },
   mounted() {
     this.getRes();
-    setTimeout(() => {
-      this.bShows = true;
-    }, 3200);
+    this.getRes2();
   },
   methods: {
     callback(event, index, val, id) {
@@ -102,16 +100,28 @@ export default {
     getRes() {
       this.$http({
         url: "openAccountResult",
-        method: "POST",
-        callback: e => {
-          this.$notify({
-            text: `${e.url} 报错`,
-            type: "failed"
-          });
+        method: "GET",
+        data: {
+          color: '123'
         }
       }).then(res => {
-        console.log(res);
-      });
+        if(res.code === 200){
+
+        }else{
+          this.$toast(res.msg)
+        }
+      })
+    },
+    getRes2(){
+      this.$http({
+        url: "isLogin",
+        method: "POST",
+        data: {
+          color: '123'
+        }
+      }).then(res => {
+        this.$toast(res.msg)
+      })
     }
   }
 };

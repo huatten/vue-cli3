@@ -16,7 +16,7 @@ const showStatus = (status) => {
   const STATUS = [400, 401, 403, 404, 405, 408, 500, 501, 502, 503, 504, 505];
   const MESSAGE = ['请求错误', '未授权，请重新登录', '拒绝访问', '请求不存在', '请求超时', '服务器错误', '服务未实现', '网络错误', '服务不可用', '网络超时', 'HTTP版本不受支持', '网络连接错误'];
   for (let i = 0; i < STATUS.length; i++) {
-    if (status >= STATUS[i]) {
+    if (status === STATUS[i]) {
       return `${MESSAGE[i]}(${status})`;
     }
   }

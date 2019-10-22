@@ -61,6 +61,9 @@ const request = option => {
       option.callback(option)
   };
 
+  //统一格式: axios.get()方法和axios.post()在提交数据时参数的书写方式不同	
+  baseConfig.method.toUpperCase() === "GET" ? Object.assign(baseConfig, { params: option.data }) : Object.assign(baseConfig, { data: option.data });
+
   //默认开启请求拦截
   if (!baseConfig.closeIntercept) {
     axios.interceptors.request.use(

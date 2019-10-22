@@ -32,6 +32,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "glob-all": "^3.1.0",
     "image-webpack-loader": "^4.6.0",
+    "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",
     "postcss-flexible": "^0.5.5",
     "postcss-plugin-px2rem": "^0.8.1",

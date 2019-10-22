@@ -13,7 +13,7 @@
             "
             @click="startrolling(item)"
           >
-            <img :src="item.picUrlDesc" v-if="item.picUrlDesc">
+            <img :src="item.picUrlDesc" v-if="item.picUrlDesc" />
             <template v-if="!item.level">
               <h4>立即抽奖</h4>
               <p>剩余1次</p>
@@ -21,47 +21,17 @@
           </li>
         </ul>
       </div>
-      <m-marquee :scrollList="scrollList"></m-marquee>
-      <button @click="showAction">我是按钮</button>
-      <m-indicator fill="#333"></m-indicator>
-      <m-indicator type="carousel" size="30" fill="#f90"></m-indicator>
-      <m-indicator type="spinner"></m-indicator>
-      <section>
-        <m-button>默认按钮</m-button>
-        <m-button type="primary">主要按钮</m-button>
-        <m-button type="info" loading loading-size="20" loading-type="carousel">信息加载中...</m-button>
-        <m-button type="info" loading loading-size="60">信息加载中...</m-button>
-        <m-button type="danger" round>危险按钮</m-button>
-        <m-button type="warning" icon-name="addto" icon-type="font" disabled>警告按钮</m-button>
-      </section>
-      <section>
-        <m-button>默认按钮</m-button>
-        <m-button type="primary" :inline="false" speed="10" native-type="reset">主要按钮</m-button>
-        <m-button type="info" :inline="false" speed="20">信息按钮</m-button>
-        <m-button type="danger" :inline="false" speed="30">危险按钮</m-button>
-        <m-button type="warning" :inline="false" speed="40">警告按钮</m-button>
-      </section>
-      <section>
-        <m-button plain type="primary">plain&&主要按钮</m-button>
-        <m-button plain type="info">plain&&信息按钮</m-button>
-        <m-button plain type="danger">plain&&危险按钮</m-button>
-        <m-button plain type="warning">plain&&警告按钮</m-button>
-      </section>
-        <section>
-        <m-button type="primary" size="small">小按钮</m-button>
-        <m-button type="primary" size="large">大按钮</m-button>
-      </section>
+      <m-marquee>
+        <m-marquee-item v-for="item in scrollList" :key="item.phone">
+          {{item.name}}-
+          {{item.phone}}-
+          {{item.time}}
+        </m-marquee-item>
+      </m-marquee>
     </m-content>
     <m-footer></m-footer>
     <!--confirm-->
     <m-confirm ref="confirm" @confirm="_confirmClear" :text="alertPrizeName"></m-confirm>
-    <m-action-sheet
-      v-model="value"
-      cancel-text="取消"
-      :disabled-index="1"
-      :default-index="0"
-      @selected="selected"
-    ></m-action-sheet>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -70,12 +40,9 @@ export default {
   name: "mHome",
   data() {
     return {
-      value: false,
-
       className: "indexWrap",
       hasBack: false,
       titleTxt: "首页",
-
       roll_direction: [1, 2, 3, 8, 4, 7, 6, 5], //转动顺序
       last_index: 0, //上一回滚动的位置
       amplification_index: 0, //轮盘的当前滚动位置
@@ -109,36 +76,25 @@ export default {
     selected(i) {
       this.$notify(i.label);
     },
-    showAction() {
-      this.value = true;
-    },
     //获取奖品信息
     getinfo() {
-      axios
-        .get(
-          "https://easy-mock.com/mock/5c4137f5cee47f2c67974e24/api/prizeInfo"
-        )
-        .then(res => {
-          const data = res.data;
-          if (data.code === 0) {
-            this.prizeInfo = data.data.prizeInfo;
-            this.$toast({
-              text: "奖品信息请求成功",
-              iconClass: "success"
-            });
-          }
-        });
+      axios.get("/api/prizeinfo").then(res => {
+        const data = res.data;
+        if (data.code === 0) {
+          console.log(data.data);
+          this.prizeInfo = data.data;
+        }
+      });
     },
     //获取滚动信息
     scrollInfo() {
-      axios
-        .get("https://easy-mock.com/mock/5c4137f5cee47f2c67974e24/api/winList")
-        .then(res => {
-          const data = res.data;
-          if (data.code === 0) {
-            this.scrollList = data.data.list;
-          }
-        });
+      axios.get("/api/scrollinfo").then(res => {
+        const data = res.data;
+        if (data.code === 0) {
+          this.scrollList = data.data.scrollinfo;
+          console.log(data.data.scrollinfo);
+        }
+      });
     },
     //初始化状态
     init() {
@@ -148,23 +104,16 @@ export default {
     },
     //请求后端中奖信息
     getPrize() {
-      axios
-        .get("https://easy-mock.com/mock/5c4137f5cee47f2c67974e24/api/winInfo")
-        .then(res => {
-          const data = res.data;
-          if (data.code === 0) {
-            if (data.data.lotteryResult) {
-              //中奖了
-              this.rolling(); //启动滚盘
-              this.finalindex = data.data.position;
-              this.prizeName = data.data.prizeName;
-            } else {
-              alert("抽奖次数已用尽");
-            }
-          } else {
-            alert("服务端错误");
-          }
-        });
+      axios.get("/api/wininfo").then(res => {
+        const data = res.data;
+        if (data.code === 0) {
+          console.log(data.data);
+          //中奖了
+          this.rolling(); //启动滚盘
+          this.finalindex = data.data.position;
+          this.prizeName = data.data.prizeName;
+        }
+      });
     },
     //开始滚动
     startrolling(item) {

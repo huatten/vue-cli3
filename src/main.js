@@ -8,6 +8,7 @@ import "components/layout";
 import "components/plugin";
 import "assets/js/filter";
 import http from "assets/js/request";
+require("./mock/index");
 Vue.config.productionTip = false;
 Vue.prototype.$http = http;
 

@@ -42,15 +42,14 @@ export default {
       transition: {
         transform: 0,
         transitionDuration: 0
-      }
+      },
+      observer: null
     };
   },
   mounted() {
-    setTimeout(() => {
-      this.$nextTick(() => {
-        this.$_init();
-      });
-    }, 100);
+    this.$nextTick(() => {
+      this.$_init();
+    });
   },
   beforeDestroy() {
     this._destroy();

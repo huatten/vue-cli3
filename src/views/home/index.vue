@@ -21,10 +21,10 @@
           </li>
         </ul>
       </div>
-      <m-marquee>
+      <m-marquee v-if="scrollList.length>0">
         <m-marquee-item v-for="item in scrollList" :key="item.phone">
-          {{item.name}}-
-          {{item.phone}}-
+          {{item.name}}
+          {{item.phone}}
           {{item.time}}
         </m-marquee-item>
       </m-marquee>
